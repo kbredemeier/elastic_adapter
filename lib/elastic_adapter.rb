@@ -1,5 +1,14 @@
 require "elastic_adapter/version"
 
+begin
+  require "pry"
+rescue LoadError
+end
+
 module ElasticAdapter
-  # Your code goes here...
+  class << self
+    def configure
+
+    end
+  end
 end
