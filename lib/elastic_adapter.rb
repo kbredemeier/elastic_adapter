@@ -1,4 +1,5 @@
 require "elastic_adapter/version"
+require "elastic_adapter/repository"
 
 begin
   require "pry"
