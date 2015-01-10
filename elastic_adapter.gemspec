@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.1.0"
   spec.add_development_dependency "pry", "~> 0.10.1"
   spec.add_development_dependency "elasticsearch-extensions", "~> 0.0.17"
+  spec.add_development_dependency "dotenv", "~> 1.0.2"
 end
