@@ -1,4 +1,5 @@
 require "elastic_adapter/version"
+require "elastic_adapter/configuration"
 require "elastic_adapter/repository"
 
 begin
@@ -8,8 +9,14 @@ end
 
 module ElasticAdapter
   class << self
-    def configure
+    attr_writer :configuration
 
+    def configure
+      yield(configuration)
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
     end
   end
 end
