@@ -2,25 +2,28 @@ require "spec_helper"
 
 module ElasticAdapter
   describe Repository do
-    describe "initialize" do
-      it "accepts an hash and assigns it to @configuration" do
-        config = {foo: "bar"}
-        repo = Repository.new({}.merge(config))
-        expect(repo.config).to eq config
-      end
+    let(:config) do
+      ElasticAdapter::Configuration.new(
+        index_name: "test_index",
+        document_type: "test_type",
+        wrapper: OpenStruct,
+        settings: { number_of_shards: 1 },
+        mappings: {}
+      )
+    end
 
-      context "defaults" do
-        let(:subject) { Repository.new }
-
-        it "assigns url" do
-          expect(subject.url).to eq "http://localhost:9200"
-        end
-
-        it "enables logging" do
-          expect(subject.log).to be true
-        end
+    describe "#initialize" do
+      it "accepts a Configuration as param" do
+        expect{
+          Repository.new(config)
+        }.not_to raise_error
       end
     end
 
+    describe "#config" do
+      it "returns the configuration" do
+        expect(Repository.new(config).config).to be config
+      end
+    end
   end
 end
