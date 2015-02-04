@@ -21,8 +21,8 @@ RSpec.shared_examples "response with exception" do
 end
 
 module ElasticAdapter
-  describe Index do
-    def create_test_index(name = "test_index")
+  describe Index, :vcr do
+    def test_index(name = "test_index")
       Index.new(
         name: name,
         url: "http://localhost:9200",
@@ -38,20 +38,25 @@ module ElasticAdapter
             }
           }
         )
-      ).create_index
+      )
+    end
+
+    def create_test_index(name = "test_index")
+      test_index.create_index
     end
 
     def delete_test_index(name = "test_index")
-      Index.new(
-        name: name,
-        url: "http://localhost:9200",
-        log: true,
-        settings: {},
-        document_type: OpenStruct.new(
-          name: "test_doc",
-          mappings: {}
-        )
-      ).delete_index
+      test_index.delete_index
+    end
+
+    def index_document(document)
+      test_index.index(document)
+    end
+
+    def wait_for_elasticsearch
+      if ENV["RECORDING"]
+        sleep 1
+      end
     end
 
     let(:name) { "test_index" }
@@ -143,7 +148,94 @@ module ElasticAdapter
       end
     end
 
-    describe "#delete_index", :vcr do
+    describe "#index" do
+      context "new document" do
+        let(:document) { { foo: "bar" } }
+
+        before :all do
+          create_test_index
+        end
+
+        after :all do
+          delete_test_index
+        end
+
+        it "indexes a document" do
+          subject.index(document)
+          wait_for_elasticsearch
+          expect(subject.count).to eq 1
+        end
+
+        it "invokes to_hash on the document" do
+          expect(document).to receive(:to_hash).and_return(document.to_hash)
+          subject.index(document)
+        end
+      end
+
+      context "existing document" do
+        let(:document) { {foo: "baz", id: 1} }
+
+        before :all do
+          create_test_index
+          index_document foo: "bar", id: 1
+        end
+
+        after :all do
+          delete_test_index
+        end
+
+        it "doesn't change the document count" do
+          expect(subject.count).to eq 0
+          subject.index(document)
+          wait_for_elasticsearch
+          expect(subject.count).to eq 1
+        end
+
+        it "invokes to_hash on the document" do
+          expect(document).to receive(:to_hash).and_return(document.to_hash)
+          subject.index(document)
+        end
+
+        it "updates the document" do
+          expect(subject.find(1)["foo"]).to eq "baz"
+        end
+      end
+    end
+
+    describe "#count" do
+      context "empty index" do
+        before :all do
+          create_test_index
+          wait_for_elasticsearch
+        end
+
+        after :all do
+          delete_test_index
+        end
+
+        it "returs the amount of all documents" do
+          expect(subject.count).to eq 0
+        end
+      end
+
+      context "not empty index" do
+        before :all do
+          create_test_index
+          index_document foo: "bar"
+          wait_for_elasticsearch
+        end
+
+        after :all do
+          delete_test_index
+        end
+
+        it "returns 1" do
+          expect(subject.count).to eq 1
+        end
+      end
+    end
+
+    describe "#delete_index" do
       context "index present" do
         before :each do
           create_test_index
@@ -165,7 +257,7 @@ module ElasticAdapter
       end
     end
 
-    describe "#create_index", :vcr do
+    describe "#create_index" do
       context "index is present" do
         before :all do
           create_test_index
@@ -180,7 +272,7 @@ module ElasticAdapter
         describe "response" do
           # TODO fix this
           # Somehow VCR doesn't record the requests for the current context
-          # include_examples "response with exception"
+          include_examples "response with exception"
         end
       end
 

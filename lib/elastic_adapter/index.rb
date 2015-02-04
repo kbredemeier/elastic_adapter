@@ -30,6 +30,29 @@ module ElasticAdapter
       end
     end
 
+    def count(query = {query:{match_all: {}}})
+      response = handle_api_call do
+        client.count index: name, body: query
+      end
+
+      response.fetch("count", 0)
+    end
+
+    def index(document)
+      doc = document.to_hash.merge({})
+
+      params = {
+        index: name,
+        id: doc.delete(:id),
+        type: document_type.name,
+        body: doc
+      }
+
+      res = handle_api_call do
+        client.index(params)
+      end
+    end
+
     private
 
     def handle_api_call

@@ -1,0 +1,84 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:9200/test_index/_count
+    body:
+      encoding: UTF-8
+      string: '{"query":{"match_all":{}}}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '59'
+    body:
+      encoding: UTF-8
+      string: '{"count":0,"_shards":{"total":5,"successful":1,"failed":0}}'
+    http_version: 
+  recorded_at: Thu, 05 Feb 2015 01:02:15 GMT
+- request:
+    method: put
+    uri: http://localhost:9200/test_index/test_doc/1
+    body:
+      encoding: UTF-8
+      string: '{"foo":"baz"}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '81'
+    body:
+      encoding: UTF-8
+      string: '{"_index":"test_index","_type":"test_doc","_id":"1","_version":2,"created":false}'
+    http_version: 
+  recorded_at: Thu, 05 Feb 2015 01:02:15 GMT
+- request:
+    method: get
+    uri: http://localhost:9200/test_index/_count
+    body:
+      encoding: UTF-8
+      string: '{"query":{"match_all":{}}}'
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '59'
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"_shards":{"total":5,"successful":5,"failed":0}}'
+    http_version: 
+  recorded_at: Thu, 05 Feb 2015 01:02:16 GMT
+recorded_with: VCR 2.9.3

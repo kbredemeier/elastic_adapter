@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: delete
+    method: put
     uri: http://localhost:9200/test_index
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"mappings":{"test_index":{"properties":{"foo":{"type":"string"}}}},"settings":{"number_of_shards":1}}'
     headers:
       User-Agent:
       - Faraday v0.9.1
@@ -15,16 +15,16 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 400
+      message: Bad Request
     headers:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '68'
+      - '81'
     body:
       encoding: UTF-8
-      string: '{"error":"IndexMissingException[[test_index] missing]","status":404}'
+      string: '{"error":"IndexAlreadyExistsException[[test_index] already exists]","status":400}'
     http_version: 
   recorded_at: Thu, 05 Feb 2015 01:02:18 GMT
 recorded_with: VCR 2.9.3

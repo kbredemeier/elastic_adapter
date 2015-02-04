@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: delete
-    uri: http://localhost:9200/test_index
+    method: put
+    uri: http://localhost:9200/test_index/test_doc/1
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"foo":"baz"}'
     headers:
       User-Agent:
       - Faraday v0.9.1
@@ -15,16 +15,16 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '68'
+      - '81'
     body:
       encoding: UTF-8
-      string: '{"error":"IndexMissingException[[test_index] missing]","status":404}'
+      string: '{"_index":"test_index","_type":"test_doc","_id":"1","_version":3,"created":false}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 01:02:18 GMT
+  recorded_at: Thu, 05 Feb 2015 01:02:16 GMT
 recorded_with: VCR 2.9.3
