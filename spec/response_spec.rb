@@ -14,6 +14,12 @@ module ElasticAdapter
       it "returns the underlaying hash" do
         expect(hash).to eq response
       end
+
+      describe "object" do
+        it "returns the underlaying object" do
+          expect(response.object).to be hash
+        end
+      end
     end
 
     describe "#failure?" do
