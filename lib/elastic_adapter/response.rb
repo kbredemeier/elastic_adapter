@@ -12,7 +12,7 @@ module ElasticAdapter
     #
     # @return [Boolean]
     def failure?
-      @failure = has_key?(:exception)
+      key?(:exception)
     end
   end
 end
