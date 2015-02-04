@@ -1,9 +1,73 @@
 require "spec_helper"
 
+RSpec.shared_examples "response without exception" do
+  it "is a Response" do
+    expect(response).to be_a ElasticAdapter::Response
+  end
+
+  it "has no exception" do
+    # expect(response).not_to have_key :exception
+    expect(response.key? :exception).to be false
+  end
+end
+
+RSpec.shared_examples "response with exception" do
+  it "is a Response" do
+    expect(response).to be_a ElasticAdapter::Response
+  end
+
+  it "has an exception" do
+    # expect(response).to have_key :exception
+    expect(response.key? :exception).to be true
+  end
+end
+
 module ElasticAdapter
   describe Index do
+    def create_test_index(name = "test_index")
+      Index.new(
+        name: name,
+        url: "http://localhost:9200",
+        log: true,
+        settings: {},
+        document_type: OpenStruct.new(
+          name: "test_doc",
+          mappings: {
+            test_doc: {
+              properties: {
+                foo: { type: "string" }
+              }
+            }
+          }
+        )
+      ).create_index
+    end
+
+    def delete_test_index(name = "test_index")
+      Index.new(
+        name: name,
+        url: "http://localhost:9200",
+        log: true,
+        settings: {},
+        document_type: OpenStruct.new(
+          name: "test_doc",
+          mappings: {}
+        )
+      ).delete_index
+    end
+
     let(:name) { "test_index" }
-    let(:mappings) { { foo: { type: "string" } } }
+    let(:mappings) do
+      {
+        test_index: {
+          properties: {
+            foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+    end
     let(:document_type) do
       OpenStruct.new(name: "test_doc", mappings: mappings)
     end
@@ -81,36 +145,54 @@ module ElasticAdapter
       end
     end
 
+    describe "#delete_index" do
+      context "index present" do
+        before :each do
+          create_test_index
+        end
+
+        let(:response) { subject.delete_index }
+
+        describe "repsonse" do
+          include_examples "response without exception"
+        end
+      end
+
+      context "index not present" do
+        let(:response) { subject.delete_index }
+
+        describe "repsonse" do
+          include_examples "response with exception"
+        end
+      end
+    end
+
     describe "#create_index" do
+      context "index not present" do
+        after :each do
+          delete_test_index
+        end
+
+        let(:response) { subject.create_index }
+
+        describe "response" do
+          include_examples "response without exception"
+        end
+      end
+
       context "index present" do
         before :all do
-          Index.new(
-            name: "test_index",
-            url: "http://localhost:9200",
-            log: true,
-            settings: {},
-            document_type: OpenStruct.new(
-              name: "test_doc",
-              mappings: {}
-            )
-          ).create_index
+          create_test_index
         end
 
         after :all do
+          delete_test_index
         end
 
+        let(:response) { subject.create_index }
+
         describe "response" do
-          let(:response) { subject.create_index }
-
-          it "is a response" do
-            expect(response).to be_a Response
-          end
-
-          describe "#failure?" do
-            it "returns true" do
-              expect(response.failure?).to be true
-            end
-          end
+          include_examples "response with exception"
         end
       end
     end

@@ -24,6 +24,12 @@ module ElasticAdapter
       end
     end
 
+    def delete_index
+      handle_api_call do
+        client.indices.delete index: name
+      end
+    end
+
     private
 
     def handle_api_call
