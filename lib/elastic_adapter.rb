@@ -1,5 +1,4 @@
-require "elasticsearch/transport"
-require "elasticsearch/api"
+require "elasticsearch"
 require "delegate"
 
 require "elastic_adapter/version"
