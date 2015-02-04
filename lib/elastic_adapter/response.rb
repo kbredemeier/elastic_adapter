@@ -1,4 +1,3 @@
-require "delegate"
 module ElasticAdapter
   # Serves to wrap the responses from elasticsearch
   class Response < ::SimpleDelegator
