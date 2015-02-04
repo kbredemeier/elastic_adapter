@@ -11,5 +11,29 @@ module ElasticAdapter
       @log = params.fetch(:log)
       @client = params.fetch(:client, Elasticsearch::Client.new(url: url, log: log))
     end
+
+    def create_index
+      handle_api_call do
+        client.indices.create(
+          index: name,
+          body: {
+            mappings: document_type.mappings,
+            settings: settings
+          }
+        )
+      end
+    end
+
+    private
+
+    def handle_api_call
+      begin
+        Response.new(yield)
+      rescue Elasticsearch::Transport::Transport::Error => e
+        Response.new(
+          exception: e
+        )
+      end
+    end
   end
 end

@@ -3,8 +3,9 @@ require "spec_helper"
 module ElasticAdapter
   describe Index do
     let(:name) { "test_index" }
+    let(:mappings) { { foo: { type: "string" } } }
     let(:document_type) do
-      OpenStruct.new(name: "document_name", mappings: { foo: "bar" })
+      OpenStruct.new(name: "test_doc", mappings: mappings)
     end
     let(:settings) { { number_of_shards: 1 } }
     let(:log) { true }
@@ -76,6 +77,40 @@ module ElasticAdapter
       describe "client" do
         it "returns the client" do
           expect(subject.client).to be_a ::Elasticsearch::Transport::Client
+        end
+      end
+    end
+
+    describe "#create_index" do
+      context "index present" do
+        before :all do
+          Index.new(
+            name: "test_index",
+            url: "http://localhost:9200",
+            log: true,
+            settings: {},
+            document_type: OpenStruct.new(
+              name: "test_doc",
+              mappings: {}
+            )
+          ).create_index
+        end
+
+        after :all do
+        end
+
+        describe "response" do
+          let(:response) { subject.create_index }
+
+          it "is a response" do
+            expect(response).to be_a Response
+          end
+
+          describe "#failure?" do
+            it "returns true" do
+              expect(response.failure?).to be true
+            end
+          end
         end
       end
     end
