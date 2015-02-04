@@ -1,6 +1,7 @@
 module ElasticAdapter
   # This class encapsulates the access to an elasticsearch index
-  class Repository
+  class Index
+    attr_reader :config
     def initialize(config)
       @config = config
     end

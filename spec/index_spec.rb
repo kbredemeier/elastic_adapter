@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module ElasticAdapter
-  describe Repository do
+  describe Index do
     let(:config) do
       ElasticAdapter::Configuration.new(
         index_name: "test_index",
@@ -15,14 +15,14 @@ module ElasticAdapter
     describe "#initialize" do
       it "accepts a Configuration as param" do
         expect{
-          Repository.new(config)
+          Index.new(config)
         }.not_to raise_error
       end
     end
 
     describe "#config" do
       it "returns the configuration" do
-        expect(Repository.new(config).config).to be config
+        expect(Index.new(config).config).to be config
       end
     end
   end
