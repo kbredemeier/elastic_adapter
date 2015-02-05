@@ -25,8 +25,12 @@ TODO: Write usage instructions here
 
 ## Testing and Development
 
-Some specs require an running Elasticsearch cluster. By default the spec expects the command `elasticsearch` to be exposed to thr user and executeable.
-To specify the path to the Elasticsearch command the port and a few other things copy the `example.env` to `.env` and change it to your needs.
+For a few specs I needed to place some sleep statements to make them work. To not slow down the specs with the sleep statements and for other reasons
+I decided to use VCR to capture the requests. I added a rake taks which sets an environment variable which is used in a helper function to decide either to
+`sleep 1` or not. This way the specs are not slowed down. To execute the rake task run `rake record`.
+
+Unfortunatly VCR skips recording some context blocks for unknown reason. I didn't had the time to look into that yet. That means that it is required
+to have a running elasticsearch at `localhost:9200` to run the specs.
 
 ## Contributing
 
