@@ -9,7 +9,7 @@ module ElasticAdapter
       #
       # @param [Hash] hash
       # @return [Hash]
-      def sanitize_hash(hash)
+      def alter_object(hash)
         new_hash = {}
         new_hash[:count] = hash[:hits][:total]
         @count = new_hash[:count]

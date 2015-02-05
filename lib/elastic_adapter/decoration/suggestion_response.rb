@@ -9,7 +9,7 @@ module ElasticAdapter
       #
       # @param [Hash] hash
       # @return [Hash]
-      def sanitize_hash(hash)
+      def alter_object(hash)
         new_hash = {}
         new_hash[:options] = hash[hash.keys[1]].first[:options]
         new_hash

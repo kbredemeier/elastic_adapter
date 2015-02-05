@@ -7,7 +7,7 @@ module ElasticAdapter
       #
       # @param [Hash] hash
       # @return [Hash]
-      def sanitize_hash(hash)
+      def alter_object(hash)
         hash[:valid]
       end
 

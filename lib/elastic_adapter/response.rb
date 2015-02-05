@@ -31,15 +31,15 @@ module ElasticAdapter
     #
     # @param [Hash] hash
     # @return [Hash]
-    def sanitize_hash(hash)
+    def alter_object(hash)
       object = hash.inject({}) do |result, (key, value)|
         new_value = nil
 
         case value
         when Hash
-          new_value = sanitize_hash(value)
+          new_value = alter_object(value)
         when Array
-          new_value = value.map { |i| sanitize_hash(i) }
+          new_value = value.map { |i| alter_object(i) }
         else
           new_value = value
         end

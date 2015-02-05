@@ -12,7 +12,7 @@ module ElasticAdapter
       # @param [Hash] hash
       def initialize(hash)
         @original_object = hash
-        __setobj__(sanitize_hash(hash))
+        __setobj__(alter_object(hash))
       end
 
       # Returns the underlaying sanitized hash
@@ -26,8 +26,8 @@ module ElasticAdapter
       #
       # @param [Hash] hash
       # @return [Hash]
-      def sanitize_hash(hash)
-        fail NotImplementedError, "sanitize_hash must be overriden in subclasses!"
+      def alter_object(hash)
+        fail NotImplementedError, "alter_object must be overriden in subclasses!"
       end
 
     end
