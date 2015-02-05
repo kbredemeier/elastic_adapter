@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:9200/test_index/_count
+    uri: http://localhost:9200/test_index/_validate/query?explain=true
     body:
       encoding: UTF-8
       string: '{"query":{"match_all":{}}}'
@@ -21,10 +21,10 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '59'
+      - '150'
     body:
       encoding: UTF-8
-      string: '{"count":1,"_shards":{"total":5,"successful":5,"failed":0}}'
+      string: '{"valid":true,"_shards":{"total":1,"successful":1,"failed":0},"explanations":[{"index":"test_index","valid":true,"explanation":"ConstantScore(*:*)"}]}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 19:30:15 GMT
+  recorded_at: Thu, 05 Feb 2015 19:30:06 GMT
 recorded_with: VCR 2.9.3

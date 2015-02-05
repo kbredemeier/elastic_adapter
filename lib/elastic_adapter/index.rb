@@ -35,7 +35,7 @@ module ElasticAdapter
     def count(query = {query:{match_all: {}}})
       handle_api_call do
         client.count index: name, body: query
-      end.fetch(:count, 0)
+      end
     end
 
     def index(document)
@@ -78,6 +78,16 @@ module ElasticAdapter
       handle_api_call do
         client.suggest(
           index: name,
+          body: query
+        )
+      end
+    end
+
+    def validate(query)
+      handle_api_call do
+        client.indices.validate_query(
+          index: name,
+          explain: true,
           body: query
         )
       end

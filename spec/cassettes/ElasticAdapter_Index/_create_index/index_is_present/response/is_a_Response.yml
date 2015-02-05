@@ -26,5 +26,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"IndexAlreadyExistsException[[test_index] already exists]","status":400}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 17:19:46 GMT
+  recorded_at: Thu, 05 Feb 2015 19:30:15 GMT
 recorded_with: VCR 2.9.3

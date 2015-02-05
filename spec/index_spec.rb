@@ -150,6 +150,47 @@ module ElasticAdapter
       end
     end
 
+    describe "#validate" do
+      before :all do
+        create_test_index
+        wait_for_elasticsearch
+      end
+
+      after :all do
+        delete_test_index
+      end
+
+      context "invalid query" do
+        let(:query) do
+          {
+            asd: "[[[ BOOM! ]]]"
+          }
+        end
+
+        let(:response) { subject.validate(query) }
+
+        it "is false" do
+          expect(response).to eq false
+        end
+      end
+
+      context "valid query" do
+        let(:query) do
+          {
+            query: {
+              match_all: {}
+            }
+          }
+        end
+
+        let(:response) { subject.validate(query) }
+
+        it "is true" do
+          expect(response).to eq true
+        end
+      end
+    end
+
     describe "#suggest" do
       before :all do
         create_test_index "test_index", document_type: OpenStruct.new(

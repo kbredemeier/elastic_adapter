@@ -12,6 +12,8 @@ module ElasticAdapter
             return HitDecorator.new(response)
           elsif response.key? :hits
             return SearchResponse.new(response)
+          elsif response.key? :valid
+            return ValidationResponse.new(response)
           else
             return SuggestionResponse.new(response)
           end
