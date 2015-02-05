@@ -1,6 +1,7 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
-require 'fileutils'
+require "fileutils"
+require "yard"
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -14,4 +15,10 @@ RSpec::Core::RakeTask.new(:record) do |t|
   ENV['RECORDING'] = "1"
   FileUtils.rm_rf "spec/cassettes"
   t.rspec_opts = "--tag vcr"
+end
+
+YARD::Rake::YardocTask.new(:doc) do |t|
+  t.files   = ['lib/**/*.rb']
+  # t.options = ['--any', '--extra', '--opts'] # optional
+  # t.stats_options = ['--list-undoc']         # optional
 end

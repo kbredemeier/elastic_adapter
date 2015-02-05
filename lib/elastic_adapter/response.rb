@@ -31,8 +31,8 @@ module ElasticAdapter
     #
     # @param [Hash] hash
     # @return [Hash]
-    def alter_object(hash)
-      object = hash.inject({}) do |result, (key, value)|
+    def alter_object(object)
+      object.inject({}) do |result, (key, value)|
         new_value = nil
 
         case value

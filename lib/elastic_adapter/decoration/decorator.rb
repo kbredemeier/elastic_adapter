@@ -2,31 +2,35 @@ require "delegate"
 
 module ElasticAdapter
   module Decoration
+    # Abstract base class for response decorators
+    # @abstract
+    #
+    # @attr [Object] original_object the original unmodified object
     class Decorator < SimpleDelegator
 
       attr_reader :original_object
 
-      # Takes a hash turns it's keys into hashes, removes leading
-      # underscores and stores the original hash.
+      # Takes an object and stores it in `@original_object` and saves a
+      # altered version as the decorated object
       #
-      # @param [Hash] hash
-      def initialize(hash)
-        @original_object = hash
-        __setobj__(alter_object(hash))
+      # @param [Object] object
+      def initialize(object)
+        @original_object = object
+        __setobj__(alter_object(object))
       end
 
-      # Returns the underlaying sanitized hash
+      # Returns the underlaying altered object
       #
-      # @return [Object] the decorated object
+      # @return [Object] the altered object
       def object
         __getobj__
       end
 
-      # Is intended to perform sanitization on the passed hash
+      # Is intended to alter the passed object to change it's interface
       #
-      # @param [Hash] hash
-      # @return [Hash]
-      def alter_object(hash)
+      # @param [Object] object
+      # @return [Object]
+      def alter_object(object)
         fail NotImplementedError, "alter_object must be overriden in subclasses!"
       end
 

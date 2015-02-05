@@ -1,24 +1,16 @@
 module ElasticAdapter
   module Decoration
+    # Used to decorate responses from the elasticseach suggest api.
+    # Delegates to a Boolean
     class ValidationResponse < Decorator
 
-      # Builds a Hash with a smaller interface from the
-      # decorated response
+      # Returns the validation status from the original hash
       #
       # @param [Hash] hash
       # @return [Hash]
       def alter_object(hash)
         hash[:valid]
       end
-
-      # def valid?
-      #   self[:valid]
-      # end
-      #
-      # def invalid?
-      #   !valid?
-      # end
-
     end
   end
 end

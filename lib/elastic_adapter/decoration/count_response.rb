@@ -1,16 +1,16 @@
 module ElasticAdapter
   module Decoration
+    # Used to wrap responses from the elasticsearch count api
+    # After decoration the decorator will point to the actual
+    # count returned by elasticsearch
     class CountResponse < Decorator
 
-      attr_reader :count
-
-      # Builds a Hash with a smaller interface from the
-      # decorated response
+      # Reduced the hash to the count returned by elasticsearch
       #
-      # @param [Hash] hash
-      # @return [Hash]
-      def alter_object(hash)
-        hash[:count]
+      # @param [Object] object
+      # @return [Integer] the count returned by elasticsearch
+      def alter_object(object)
+        object[:count]
       end
 
     end

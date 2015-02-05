@@ -1,7 +1,16 @@
 module ElasticAdapter
   module Decoration
+    # This class is used inside the Response and is used to determin
+    # the decorator for responses returned by elasticsearch
+    # 
+    # @see Response#decorate
     class ResponseDecoratorFactory
       class << self
+        # Takes a response and returns it with the right decorator
+        # applied
+        #
+        # @param [Hash] response a response returned by elasticsearch
+        # @return [Docorator] a decorated response
         def decorate(response)
           if response.key? :acknowledged
           elsif response.key? :created
@@ -21,6 +30,13 @@ module ElasticAdapter
           response
         end
 
+        private
+
+        # Checks if the passed response is a response
+        # from the elasticsearch suggest api
+        #
+        # @param [Hash] response
+        # @return [Boolean]
         def suggestion?(response)
           second_key = response[response.keys[1]]
           return false unless second_key.is_a? Array

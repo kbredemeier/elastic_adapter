@@ -1,5 +1,7 @@
 module ElasticAdapter
   module Decoration
+    # Used to decorate responses from the elasticsearch suggestion api
+    # @attr_reader [Integer] count the amount of suggestions
     class SuggestionResponse < Decorator
 
       attr_reader :count

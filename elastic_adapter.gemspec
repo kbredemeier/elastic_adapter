@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "elastic_adapter"
   spec.version       = ElasticAdapter::VERSION
   spec.authors       = ["Kristopher Bredemeier"]
-  spec.email         = ["kb@i22.de"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.email         = ["k.bredemeier@gmail.com"]
+  spec.summary       = %q{Repository like access to elasticseach indices}
+  spec.description   = %q{Repository like access to elasticseach indices}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "vcr", "~> 2.9.3"
   spec.add_development_dependency "webmock", "~> 1.20.4"
   spec.add_development_dependency "pry-byebug", "~> 3.0.1"
-  spec.add_development_dependency "elasticsearch-extensions", "~> 0.0.17"
+  spec.add_development_dependency "yard", "~> 0.8.7.6"
 end

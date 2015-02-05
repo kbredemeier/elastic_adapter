@@ -1,11 +1,13 @@
 module ElasticAdapter
   module Decoration
+    # Used to decorate responses from the elasticsearch search api
+    #
+    # @attr_reader [Integer] count the total amount of search results
     class SearchResponse < Decorator
 
       attr_reader :count
 
-      # Builds a Hash with a smaller interface from the
-      # decorated response
+      # Reduces the interface and assigns the @count variable
       #
       # @param [Hash] hash
       # @return [Hash]

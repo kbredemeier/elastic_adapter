@@ -1,6 +1,5 @@
 require "elastic_adapter"
 require "rake"
-require "elasticsearch/extensions/test/cluster/tasks"
 require "webmock/rspec"
 require "vcr"
 
@@ -50,14 +49,6 @@ RSpec.configure do |config|
     # a real object. This is generally recommended, and will default to
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
-  end
-
-  config.before :each, elasticsearch: true do
-    Elasticsearch::Extensions::Test::Cluster.start unless Elasticsearch::Extensions::Test::Cluster.running?
-  end
-
-  config.after :suite do
-    Elasticsearch::Extensions::Test::Cluster.stop if Elasticsearch::Extensions::Test::Cluster.running?
   end
 
 # The settings below are suggested to provide a good initial experience
