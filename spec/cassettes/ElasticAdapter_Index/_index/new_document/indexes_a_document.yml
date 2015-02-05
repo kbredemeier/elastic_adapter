@@ -24,9 +24,9 @@ http_interactions:
       - '99'
     body:
       encoding: UTF-8
-      string: '{"_index":"test_index","_type":"test_doc","_id":"AUtaJRzzLOxjj9sS6ROn","_version":1,"created":true}'
+      string: '{"_index":"test_index","_type":"test_doc","_id":"AUtaYJQ7LOxjj9sS6RPW","_version":1,"created":true}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 14:29:16 GMT
+  recorded_at: Thu, 05 Feb 2015 15:34:13 GMT
 - request:
     method: get
     uri: http://localhost:9200/test_index/_count
@@ -53,5 +53,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"_shards":{"total":5,"successful":5,"failed":0}}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 14:29:17 GMT
+  recorded_at: Thu, 05 Feb 2015 15:34:14 GMT
 recorded_with: VCR 2.9.3

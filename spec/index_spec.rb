@@ -21,7 +21,7 @@ RSpec.shared_examples "response with exception" do
 end
 
 module ElasticAdapter
-  describe Index do
+  describe Index, :vcr do
     def test_index(name = "test_index")
       Index.new(
         name: name,
@@ -144,6 +144,37 @@ module ElasticAdapter
       describe "client" do
         it "returns the client" do
           expect(subject.client).to be_a ::Elasticsearch::Transport::Client
+        end
+      end
+    end
+
+    describe "#search" do
+      before :all do
+        create_test_index
+        index_document(foo: "bar", id: 1)
+        index_document(foo: "zoo", id: 2)
+        sleep 1
+      end
+
+      after :all do
+        delete_test_index
+      end
+
+      context "match_all" do
+        it "returns all documents" do
+          expect(subject.search({query: {match_all: {}}}).count).to eq 2
+        end
+      end
+
+      context "zoo" do
+        let(:response) { subject.search(query: {match: {foo: "zoo"}})}
+        it "returns one document" do
+          expect(response.count).to eq 1
+        end
+
+        it "returns the wanted document" do
+          expect(response[:hits].first[:id]).to eq "2"
+          expect(response[:hits].first[:foo]).to eq "zoo"
         end
       end
     end

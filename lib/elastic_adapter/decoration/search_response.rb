@@ -1,6 +1,9 @@
 module ElasticAdapter
   module Decoration
-    class GetResponse < Decorator
+    class SearchResponse < Decorator
+
+      attr_reader :count
+
       # Builds a Hash with a smaller interface from the
       # decorated response
       #
@@ -8,13 +11,17 @@ module ElasticAdapter
       # @return [Hash]
       def sanitize_hash(hash)
         new_hash = {}
-        new_hash[:id] = hash[:id]
-        hash[:source].each do |key, value|
-          new_hash[key] = value
+        new_hash[:count] = hash[:hits][:total]
+        @count = new_hash[:count]
+        new_hash[:hits] = []
+
+        hash[:hits][:hits].each do |hit|
+          new_hash[:hits] << HitDecorator.new(hit)
         end
 
         new_hash
       end
+
     end
   end
 end

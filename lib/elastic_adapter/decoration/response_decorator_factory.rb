@@ -4,7 +4,9 @@ module ElasticAdapter
       class << self
         def decorate(response)
           if response.key? :source
-            return GetResponse.new(response)
+            return HitDecorator.new(response)
+          elsif response.key? :hits
+            return SearchResponse.new(response)
           end
 
           response
