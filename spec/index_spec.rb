@@ -22,8 +22,8 @@ end
 
 module ElasticAdapter
   describe Index, :vcr do
-    def test_index(name = "test_index")
-      Index.new(
+    def test_index(name = "test_index", options = {})
+      params = {
         name: name,
         url: "http://localhost:9200",
         log: true,
@@ -38,19 +38,21 @@ module ElasticAdapter
             }
           }
         )
-      )
+      }.merge(options)
+
+      Index.new(params)
     end
 
-    def create_test_index(name = "test_index")
-      test_index.create_index
+    def create_test_index(name = "test_index", options = {})
+      test_index(name, options).create_index
     end
 
-    def delete_test_index(name = "test_index")
-      test_index.delete_index
+    def delete_test_index(name = "test_index", options = {})
+      test_index(name, options).delete_index
     end
 
-    def index_document(document)
-      test_index.index(document)
+    def index_document(document, name = "test_index", options = {})
+      test_index(name, options).index(document)
     end
 
     def wait_for_elasticsearch
