@@ -27,7 +27,7 @@ module ElasticAdapter
     #
     # @return [Decorator] returns the decorated response
     def decorate
-      Decorators::ResponseDecoratorFactory.decorate(self)
+      Decoration::ResponseDecoratorFactory.decorate(self)
     end
   end
 end
