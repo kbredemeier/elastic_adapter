@@ -3,11 +3,11 @@ module ElasticAdapter
     class ResponseDecoratorFactory
       class << self
         def decorate(response)
-          if response.key? "_source"
-            {
-              id: response["_id"],
-            }.merge(response["_source"])
+          if response.key? :source
+            return GetResponse.new(response)
           end
+
+          response
         end
       end
     end

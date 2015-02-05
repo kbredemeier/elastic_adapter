@@ -35,7 +35,7 @@ module ElasticAdapter
         client.count index: name, body: query
       end
 
-      response.fetch("count", 0)
+      response.fetch(:count, 0)
     end
 
     def index(document)
@@ -53,11 +53,26 @@ module ElasticAdapter
       end
     end
 
+    def get(id)
+      handle_api_call do
+        client.get(
+          index: name,
+          type: document_type.name,
+          id: id
+        )
+      end
+    end
+
     private
 
     def handle_api_call
       begin
-        Response.new(yield)
+        # response = yield.inject({}) do |result, (key, value)|
+        #   result[key.to_sym] = value
+        #   result
+        # end
+        # Response.new(response)
+        Response.new(yield).decorate
       rescue Elasticsearch::Transport::Transport::Error => e
         Response.new(
           exception: e

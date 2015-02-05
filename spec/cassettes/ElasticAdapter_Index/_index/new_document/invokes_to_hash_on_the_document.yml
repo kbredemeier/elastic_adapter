@@ -24,7 +24,7 @@ http_interactions:
       - '99'
     body:
       encoding: UTF-8
-      string: '{"_index":"test_index","_type":"test_doc","_id":"AUtXQkJyZGbM8oEbYB8h","_version":1,"created":true}'
+      string: '{"_index":"test_index","_type":"test_doc","_id":"AUtaJSE2LOxjj9sS6ROo","_version":1,"created":true}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 01:02:15 GMT
+  recorded_at: Thu, 05 Feb 2015 14:29:17 GMT
 recorded_with: VCR 2.9.3

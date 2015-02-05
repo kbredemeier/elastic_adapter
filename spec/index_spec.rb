@@ -21,7 +21,7 @@ RSpec.shared_examples "response with exception" do
 end
 
 module ElasticAdapter
-  describe Index, :vcr do
+  describe Index do
     def test_index(name = "test_index")
       Index.new(
         name: name,
@@ -148,9 +148,9 @@ module ElasticAdapter
       end
     end
 
-    describe "#find" do
+    describe "#get" do
       context "document exists" do
-        let(:document) { {foo: "bar", id: 1} }
+        let(:document) { {id: "1", foo: "bar"} }
         before :all do
           create_test_index
           index_document(foo: "bar", id: 1)
@@ -160,7 +160,7 @@ module ElasticAdapter
           delete_test_index
         end
 
-        let(:response) { subject.find(1) }
+        let(:response) { subject.get(1) }
 
         describe "response" do
           it "contains the document" do
@@ -184,7 +184,8 @@ module ElasticAdapter
 
         it "indexes a document" do
           subject.index(document)
-          wait_for_elasticsearch
+          # wait_for_elasticsearch
+          sleep 1
           expect(subject.count).to eq 1
         end
 
@@ -199,7 +200,11 @@ module ElasticAdapter
 
         before :all do
           create_test_index
+          # wait_for_elasticsearch
+          sleep 1
           index_document foo: "bar", id: 1
+          # wait_for_elasticsearch
+          sleep 1
         end
 
         after :all do
@@ -207,9 +212,10 @@ module ElasticAdapter
         end
 
         it "doesn't change the document count" do
-          expect(subject.count).to eq 0
+          expect(subject.count).to eq 1
           subject.index(document)
-          wait_for_elasticsearch
+          sleep 1
+          # wait_for_elasticsearch
           expect(subject.count).to eq 1
         end
 
@@ -219,7 +225,7 @@ module ElasticAdapter
         end
 
         it "updates the document" do
-          expect(subject.find(1)["foo"]).to eq "baz"
+          expect(subject.get(1)[:foo]).to eq "baz"
         end
       end
     end
@@ -244,7 +250,8 @@ module ElasticAdapter
         before :all do
           create_test_index
           index_document foo: "bar"
-          wait_for_elasticsearch
+          sleep 1
+          # wait_for_elasticsearch
         end
 
         after :all do

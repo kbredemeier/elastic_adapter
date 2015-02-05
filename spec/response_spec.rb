@@ -6,19 +6,31 @@ module ElasticAdapter
       let(:hash) { { foo: "bar" } }
       let(:response) { Response.new(hash) }
 
-      it "delegates to the hash" do
-        expect(hash).to receive(:key?).with(:foo)
-        response.key? :foo
-      end
-
-      it "returns the underlaying hash" do
-        expect(hash).to eq response
+      describe "#original_object" do
+        it "returns the original hash" do
+          expect(response.original_object).to be hash
+        end
       end
 
       describe "object" do
-        it "returns the underlaying object" do
-          expect(response.object).to be hash
+        it "returns the sanitized hash" do
+          expect(response.object).to eq({ foo: "bar" })
         end
+      end
+    end
+
+    describe "sanitization" do
+      it "turns all strings in Hash keys to symbols" do
+        hash = {"foo" => "bar"}
+        response = Response.new(hash)
+        expect(response.keys.first).to be_a Symbol
+      end
+
+      it "removes all leading underscores from keys" do
+        hash = {"_foo" => {"_bar" => "baz" }}
+        expected = {foo: {bar: "baz" }}
+        response = Response.new(hash)
+        expect(response.object).to eq expected
       end
     end
 
@@ -55,7 +67,7 @@ module ElasticAdapter
           }
         end
 
-        let(:response) do 
+        let(:response) do
           response = Response.new(response_hash)
         end
 
