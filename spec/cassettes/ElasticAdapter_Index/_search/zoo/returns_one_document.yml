@@ -21,10 +21,10 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '224'
+      - '225'
     body:
       encoding: UTF-8
-      string: '{"took":2,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":1,"max_score":0.30685282,"hits":[{"_index":"test_index","_type":"test_doc","_id":"2","_score":0.30685282,"_source":{"foo":"zoo"}}]}}'
+      string: '{"took":23,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":1,"max_score":0.30685282,"hits":[{"_index":"test_index","_type":"test_doc","_id":"2","_score":0.30685282,"_source":{"foo":"zoo"}}]}}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 15:34:13 GMT
+  recorded_at: Thu, 05 Feb 2015 17:19:39 GMT
 recorded_with: VCR 2.9.3

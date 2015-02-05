@@ -150,6 +150,53 @@ module ElasticAdapter
       end
     end
 
+    describe "#suggest" do
+      before :all do
+        create_test_index "test_index", document_type: OpenStruct.new(
+          name: "test_doc",
+          mappings: {
+            test_doc: {
+              properties: {
+                foo: { type: "completion" }
+              }
+            }
+          }
+        )
+
+        index_document(foo: {input: "bar"})
+        index_document(foo: {input: "zoo"})
+        sleep 1
+      end
+
+      after :all do
+        delete_test_index
+      end
+
+      context "query 'ba'" do
+        let(:query) do
+          {
+            foo_suggest: {
+              text: "ba",
+              completion: {
+                field: "foo"
+              }
+            }
+          }
+        end
+
+        let(:response) { subject.suggest(query)}
+
+        it "returns one result" do
+          expect(response.count).to eq 1
+        end
+
+        it "returns bar" do
+          expect(response[:options].first).to include text: "bar"
+        end
+
+      end
+    end
+
     describe "#search" do
       before :all do
         create_test_index

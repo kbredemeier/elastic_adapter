@@ -3,10 +3,17 @@ module ElasticAdapter
     class ResponseDecoratorFactory
       class << self
         def decorate(response)
-          if response.key? :source
+          if response.key? :acknowledged
+          elsif response.key? :created
+          elsif response.key? :exception
+          elsif response.key? :count
+            return CountResponse.new(response)
+          elsif response.key? :source
             return HitDecorator.new(response)
           elsif response.key? :hits
             return SearchResponse.new(response)
+          else
+            return SuggestionResponse.new(response)
           end
 
           response

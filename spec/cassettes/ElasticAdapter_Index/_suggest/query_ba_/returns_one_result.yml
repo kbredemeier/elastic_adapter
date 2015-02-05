@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: put
-    uri: http://localhost:9200/test_index/test_doc/1
+    method: post
+    uri: http://localhost:9200/test_index/_suggest
     body:
       encoding: UTF-8
-      string: '{"foo":"baz"}'
+      string: '{"foo_suggest":{"text":"ba","completion":{"field":"foo"}}}'
     headers:
       User-Agent:
       - Faraday v0.9.1
@@ -21,10 +21,10 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '81'
+      - '140'
     body:
       encoding: UTF-8
-      string: '{"_index":"test_index","_type":"test_doc","_id":"1","_version":2,"created":false}'
+      string: '{"_shards":{"total":5,"successful":5,"failed":0},"foo_suggest":[{"text":"ba","offset":0,"length":2,"options":[{"text":"bar","score":1.0}]}]}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 17:19:43 GMT
+  recorded_at: Thu, 05 Feb 2015 17:19:35 GMT
 recorded_with: VCR 2.9.3

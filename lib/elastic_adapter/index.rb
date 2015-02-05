@@ -10,6 +10,8 @@ module ElasticAdapter
       @url = params.fetch(:url)
       @log = params.fetch(:log)
       @client = params.fetch(:client, Elasticsearch::Client.new(url: url, log: log))
+
+      self
     end
 
     def create_index
@@ -46,9 +48,11 @@ module ElasticAdapter
         body: doc
       }
 
-      handle_api_call do
+      response = handle_api_call do
         client.index(params)
       end
+
+      response
     end
 
     def get(id)
@@ -64,6 +68,15 @@ module ElasticAdapter
     def search(query)
       handle_api_call do
         client.search(
+          index: name,
+          body: query
+        )
+      end
+    end
+
+    def suggest(query)
+      handle_api_call do
+        client.suggest(
           index: name,
           body: query
         )
