@@ -50,12 +50,21 @@ module ElasticAdapter
             end
           end
 
-          context "response with everything_else" do
-            let(:response) {{ everything_else: {} }}
+          context "response with options" do
+            let(:response) {{ foo: "bar", foo_suggestion: [{options: []}] }}
             let(:subject) { ResponseDecoratorFactory.decorate(response)}
 
             it "returns a SuggestionResponse" do
               expect(subject).to be_a SuggestionResponse
+            end
+          end
+
+          context "response with everything_else" do
+            let(:response) {{ everything_else: {} }}
+            let(:subject) { ResponseDecoratorFactory.decorate(response)}
+
+            it "returns a Response" do
+              expect(subject).to be_a Hash
             end
           end
 
