@@ -148,6 +148,28 @@ module ElasticAdapter
       end
     end
 
+    describe "#find" do
+      context "document exists" do
+        let(:document) { {foo: "bar", id: 1} }
+        before :all do
+          create_test_index
+          index_document(foo: "bar", id: 1)
+        end
+
+        after :all do
+          delete_test_index
+        end
+
+        let(:response) { subject.find(1) }
+
+        describe "response" do
+          it "contains the document" do
+            expect(response).to eq document
+          end
+        end
+      end
+    end
+
     describe "#index" do
       context "new document" do
         let(:document) { { foo: "bar" } }
