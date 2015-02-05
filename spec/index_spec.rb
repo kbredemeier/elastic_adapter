@@ -172,6 +172,10 @@ module ElasticAdapter
         it "is false" do
           expect(response).to eq false
         end
+
+        it "is a response" do
+          expect(response).to be_a Decoration::ValidationResponse
+        end
       end
 
       context "valid query" do
@@ -187,6 +191,10 @@ module ElasticAdapter
 
         it "is true" do
           expect(response).to eq true
+        end
+
+        it "is a response" do
+          expect(response).to be_a Decoration::ValidationResponse
         end
       end
     end
@@ -365,6 +373,10 @@ module ElasticAdapter
         it "returs the amount of all documents" do
           expect(subject.count).to eq 0
         end
+
+        it "is a response" do
+          expect(subject.count).to be_a Decoration::CountResponse
+        end
       end
 
       context "not empty index" do
@@ -381,6 +393,10 @@ module ElasticAdapter
 
         it "returns 1" do
           expect(subject.count).to eq 1
+        end
+
+        it "is a response" do
+          expect(subject.count).to be_a Decoration::CountResponse
         end
       end
     end
