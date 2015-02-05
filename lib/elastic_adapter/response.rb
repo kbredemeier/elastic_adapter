@@ -22,5 +22,12 @@ module ElasticAdapter
     def failure?
       key?(:exception)
     end
+
+    # Decorates the Response with the right decorator
+    #
+    # @return [Decorator] returns the decorated response
+    def decorate
+      Decorators::ResponseDecoratorFactory.decorate(self)
+    end
   end
 end
