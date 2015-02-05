@@ -1,3 +1,5 @@
+require "delegate"
+
 module ElasticAdapter
   module Decoration
     class Decorator < SimpleDelegator

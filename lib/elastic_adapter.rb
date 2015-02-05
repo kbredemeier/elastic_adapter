@@ -1,5 +1,4 @@
 require "elasticsearch"
-require "delegate"
 
 require "elastic_adapter/version"
 require "elastic_adapter/attribute_accessor"
