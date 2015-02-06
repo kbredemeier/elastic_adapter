@@ -1,0 +1,8 @@
+inherit_from: .ruby.yml
+
+AllCops:
+  Exclude:
+    - spec/**/*
+    - Gemfile
+    - Rakefile
+    - elastic_adapter.gemspec
