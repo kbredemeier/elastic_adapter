@@ -1,14 +1,12 @@
 # ElasticAdapter
 
 This gem provides an implementation of the repository pattern. It is a result of some frustration
-I had with the [elasticsearch-persistence] gem. After reading [Hasie Considered Harmful](http://www.schneems.com/2014/12/15/hashie-considered-harmful.html) and some issues
+I had with the [elasticsearch-persistence](https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-persistence) gem. After reading [Hashie Considered Harmful](http://www.schneems.com/2014/12/15/hashie-considered-harmful.html) and some issues
 I had with overriding methods on a subclassed Repository I decided to give it a own try.
 
 ## Installation
 
 Add this line to your application's Gemfile:
-
-http://www.rubydoc.info/github/kbredemeier/elastic_adatper/master
 
 ```ruby
 gem 'elastic_adapter'
@@ -69,7 +67,7 @@ index = ElasticAdapter::Index.new(
 ```
 
 Now you can perform actions like create the index, index documents or search for them.
-For a full list of feaures look indo the [Documentation](http://www.rubydoc.info/github/kbredemeier/elastic_adatper/master/ElasticAdapter/Index).
+For a full list of feaures look into the [Documentation](http://www.rubydoc.info/github/kbredemeier/elastic_adatper/master/ElasticAdapter/Index).
 
 ```ruby
 # Creating an Index
@@ -109,7 +107,7 @@ Although I am using VCR to record an mock the requests there is still an running
 because for unknown reason VCR misses to record some context groups.
 
 In some cases it might be necessary to rerecord the requests. Because elasticsearch is a little slow and doesn't return documents for a
-search request that just has been indexed there are some sleep statements in the spec. To not slow down the tests those sleep statements
+search request that just have been indexed there are some sleep statements in the spec. To not slow down the tests those sleep statements
 are just executed if a `RECORDING` environment variable is set. I added a rake task that sets the environment variable deletes the cassetts
 and runs all specs with `:vcr`. Run `rake record` to rerecord the cassettes.
 
