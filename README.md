@@ -1,10 +1,14 @@
 # ElasticAdapter
 
-TODO: Write a gem description
+This gem provides an implementation of the repository pattern. It is a result of some frustration
+I had with the [elasticsearch-persistence] gem. After reading [Hasie Considered Harmful](http://www.schneems.com/2014/12/15/hashie-considered-harmful.html) and some issues
+I had with overriding methods on a subclassed Repository I decided to give it a own try.
 
 ## Installation
 
 Add this line to your application's Gemfile:
+
+http://www.rubydoc.info/github/kbredemeier/elastic_adatper/master
 
 ```ruby
 gem 'elastic_adapter'
@@ -18,19 +22,96 @@ Or install it yourself as:
 
     $ gem install elastic_adapter
 
+## Documentation
+
+Documentation can be found [here](http://www.rubydoc.info/github/kbredemeier/elastic_adatper/)
+
 ## Usage
 
-TODO: Write usage instructions here
+First define the document type. Initialize it by passing a `name` and some `mappings` to the constructor:
 
+```ruby
+mappings = {
+  product: {
+    properties: {
+      name: {
+        type: "string",
+        index_analyzer: "simple",
+        search_analyzer: "simple"
+      },
+      name_suggest: {
+        type: "completion"
+      },
+      price: {
+        type: "float",
+        index: "not_analyzed"
+      }
+    }
+  }
+}
+
+document_type = ElasticAdapter::DocumentType.new("product", mappings)
+```
+
+Next define the index settings and instantiate the index:
+
+```ruby
+settings = { number_of_shards: 1 }
+
+
+index = ElasticAdapter::Index.new(
+  name: "product_index",
+  url: "http://localhost:9200",
+  log: true,
+  settings: settings,
+  document_type: document_type
+)
+```
+
+Now you can perform actions like create the index, index documents or search for them.
+For a full list of feaures look indo the [Documentation](http://www.rubydoc.info/github/kbredemeier/elastic_adatper/master/ElasticAdapter/Index).
+
+```ruby
+# Creating an Index
+
+response = index.create_index
+response.inspect # => "{:acknowledged=>true}"
+response.class # => ElasticAdapter::Response
+response.success? # => true
+
+# Add a document to the index
+
+doc = {
+  id: 1,
+  name_name: "foo",
+  suggest: "foo",
+  price: 11.12
+}
+
+response = index.index(doc)
+response.inspect # => "{:index=>\"product_index\", :type=>\"product\", :id=>\"1\", :version=>1, :created=>true}"
+response.class # => ElasticAdapter::Response
+response.success? # => true
+
+# Search for documents
+
+query = {query: {match: {name: "foo"}}}
+response = index.search(query)
+response.inspect # => "{:count=>1, :hits=>[{:id=>\"1\", :name=>\"foo\", :name_suggest=>\"foo\", :price=>11.12}]}"
+response.class # => ElasticAdapter::Decoration::SearchResponse
+```
+
+Fore more usage examples look [here](https://github.com/kbredemeier/elastic_adatper/tree/master/examples)
 
 ## Testing and Development
 
-For a few specs I needed to place some sleep statements to make them work. To not slow down the specs with the sleep statements and for other reasons
-I decided to use VCR to capture the requests. I added a rake taks which sets an environment variable which is used in a helper function to decide either to
-`sleep 1` or not. This way the specs are not slowed down. To execute the rake task run `rake record`.
+Although I am using VCR to record an mock the requests there is still an running elasticsearch at `localhost:9200` required
+because for unknown reason VCR misses to record some context groups.
 
-Unfortunatly VCR skips recording some context blocks for unknown reason. I didn't had the time to look into that yet. That means that it is required
-to have a running elasticsearch at `localhost:9200` to run the specs.
+In some cases it might be necessary to rerecord the requests. Because elasticsearch is a little slow and doesn't return documents for a
+search request that just has been indexed there are some sleep statements in the spec. To not slow down the tests those sleep statements
+are just executed if a `RECORDING` environment variable is set. I added a rake task that sets the environment variable deletes the cassetts
+and runs all specs with `:vcr`. Run `rake record` to rerecord the cassettes.
 
 ## Contributing
 
