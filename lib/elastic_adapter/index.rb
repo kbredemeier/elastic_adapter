@@ -9,7 +9,9 @@ module ElasticAdapter
       @document_type = params.fetch(:document_type)
       @url = params.fetch(:url)
       @log = params.fetch(:log)
-      @client = params.fetch(:client, Elasticsearch::Client.new(url: url, log: log))
+      @client = params.fetch :client do
+        Elasticsearch::Client.new(url: url, log: log)
+      end
 
       self
     end
@@ -32,7 +34,7 @@ module ElasticAdapter
       end
     end
 
-    def count(query = {query:{match_all: {}}})
+    def count(query = { query: { match_all: {} } })
       handle_api_call do
         client.count index: name, body: query
       end
@@ -96,13 +98,11 @@ module ElasticAdapter
     private
 
     def handle_api_call
-      begin
-        Response.new(yield).decorate
-      rescue Elasticsearch::Transport::Transport::Error => e
-        Response.new(
-          exception: e
-        )
-      end
+      Response.new(yield).decorate
+    rescue Elasticsearch::Transport::Transport::Error => e
+      Response.new(
+        exception: e
+      )
     end
   end
 end

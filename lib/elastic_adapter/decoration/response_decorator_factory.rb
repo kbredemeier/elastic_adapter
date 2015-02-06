@@ -2,7 +2,7 @@ module ElasticAdapter
   module Decoration
     # This class is used inside the Response and is used to determin
     # the decorator for responses returned by elasticsearch
-    # 
+    #
     # @see Response#decorate
     class ResponseDecoratorFactory
       class << self
@@ -12,10 +12,7 @@ module ElasticAdapter
         # @param [Hash] response a response returned by elasticsearch
         # @return [Docorator] a decorated response
         def decorate(response)
-          if response.key? :acknowledged
-          elsif response.key? :created
-          elsif response.key? :exception
-          elsif response.key? :count
+          if response.key? :count
             return CountResponse.new(response)
           elsif response.key? :source
             return HitDecorator.new(response)
@@ -43,7 +40,7 @@ module ElasticAdapter
           return false if second_key.empty?
           return false unless second_key.first.is_a? Hash
           return false unless second_key.first.key? :options
-          return true
+          true
         end
       end
     end

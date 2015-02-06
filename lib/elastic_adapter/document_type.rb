@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength
 module ElasticAdapter
   # This class is intended to hold information about
   # a document in an elasticsearch index
@@ -7,7 +8,6 @@ module ElasticAdapter
   # @attr_reader [String] name the name of the document
   # @attr_reader [Hash] mappings the mappings for the document
   class DocumentType
-
     attr_reader :name, :mappings
 
     # @param [String] name
@@ -16,6 +16,5 @@ module ElasticAdapter
       @name = name
       @mappings = mappings
     end
-
   end
 end

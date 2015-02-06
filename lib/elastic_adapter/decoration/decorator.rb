@@ -7,7 +7,6 @@ module ElasticAdapter
     #
     # @attr [Object] original_object the original unmodified object
     class Decorator < SimpleDelegator
-
       attr_reader :original_object
 
       # Takes an object and stores it in `@original_object` and saves a
@@ -30,10 +29,9 @@ module ElasticAdapter
       #
       # @param [Object] object
       # @return [Object]
-      def alter_object(object)
-        fail NotImplementedError, "alter_object must be overriden in subclasses!"
+      def alter_object(_object)
+        fail NotImplementedError, "alter_object must be overriden in subclasses"
       end
-
     end
   end
 end

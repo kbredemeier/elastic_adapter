@@ -4,7 +4,6 @@ module ElasticAdapter
     #
     # @attr_reader [Integer] count the total amount of search results
     class SearchResponse < Decorator
-
       attr_reader :count
 
       # Reduces the interface and assigns the @count variable
@@ -23,7 +22,6 @@ module ElasticAdapter
 
         new_hash
       end
-
     end
   end
 end

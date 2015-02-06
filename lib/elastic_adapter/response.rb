@@ -1,7 +1,6 @@
 module ElasticAdapter
   # Serves to wrap the responses from elasticsearch
   class Response < ::ElasticAdapter::Decoration::Decorator
-
     # Checks if the operation was successfull
     #
     # @return [Boolean]

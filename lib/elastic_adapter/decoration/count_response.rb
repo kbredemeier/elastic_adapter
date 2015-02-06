@@ -4,7 +4,6 @@ module ElasticAdapter
     # After decoration the decorator will point to the actual
     # count returned by elasticsearch
     class CountResponse < Decorator
-
       # Reduced the hash to the count returned by elasticsearch
       #
       # @param [Object] object
@@ -12,7 +11,6 @@ module ElasticAdapter
       def alter_object(object)
         object[:count]
       end
-
     end
   end
 end
