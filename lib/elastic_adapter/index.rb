@@ -16,7 +16,11 @@ module ElasticAdapter
   #     name: "test_index",
   #     settings: { number_of_shards: 1 },
   #     document_type: ElasticAdapter::DocumentType.new("test_doc", mappings: {
-  #         foo: { type: "string" }
+  #         test_doc: {
+  #           properties: {
+  #             foo: { type: "string" }
+  #           }
+  #         }
   #       }
   #     ),
   #     url: "localhost:9200",

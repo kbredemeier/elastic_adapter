@@ -5,6 +5,17 @@ module ElasticAdapter
   #
   # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping.html Elasticsearch Mappings
   #
+  # @example
+  #   document_type = ElasticAdatper::DocumentType.new("test_doc", {
+  #     test_doc: {
+  #       properties: {
+  #         name: {
+  #           type: "string"
+  #         }
+  #       }
+  #     }
+  #   })
+  #
   # @attr_reader [String] name the name of the document
   # @attr_reader [Hash] mappings the mappings for the document
   class DocumentType
