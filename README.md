@@ -103,9 +103,7 @@ Fore more usage examples look [here](https://github.com/kbredemeier/elastic_adat
 
 ## Testing and Development
 
-Although I am using VCR to record an mock the requests there is still an running elasticsearch at `localhost:9200` required
-because for unknown reason VCR misses to record some context groups.
-
+I am using [VCR](https://github.com/vcr/vcr) to record the requests to elasticsearch and play them back while testing.
 In some cases it might be necessary to rerecord the requests. Because elasticsearch is a little slow and doesn't return documents for a
 search request that just have been indexed there are some sleep statements in the spec. To not slow down the tests those sleep statements
 are just executed if a `RECORDING` environment variable is set. I added a rake task that sets the environment variable deletes the cassetts
