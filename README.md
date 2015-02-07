@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kbredemeier/elastic_adatper.svg?branch=master)](https://travis-ci.org/kbredemeier/elastic_adatper)
 # ElasticAdapter
 
 This gem provides an implementation of the repository pattern. It is a result of some frustration
