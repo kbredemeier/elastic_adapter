@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:9200/test_index
     body:
       encoding: UTF-8
-      string: '{"mappings":{"test_index":{"properties":{"foo":{"type":"string"}}}},"settings":{"number_of_shards":1}}'
+      string: '{"mappings":{"test_index":{"properties":{"foo":{"type":"string","foo_suggest":{"type":"completion"}}}}},"settings":{"number_of_shards":1}}'
     headers:
       User-Agent:
       - Faraday v0.9.1
@@ -26,5 +26,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"IndexAlreadyExistsException[[test_index] already exists]","status":400}'
     http_version: 
-  recorded_at: Thu, 05 Feb 2015 19:30:15 GMT
+  recorded_at: Sat, 07 Feb 2015 19:02:31 GMT
 recorded_with: VCR 2.9.3
