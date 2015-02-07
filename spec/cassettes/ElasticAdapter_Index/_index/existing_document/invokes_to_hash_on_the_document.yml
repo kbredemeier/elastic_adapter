@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: put
-    uri: http://localhost:9200/test_index
+    uri: http://localhost:9200/test_index/test_doc/1
     body:
       encoding: UTF-8
-      string: '{"mappings":{"test_index":{"properties":{"foo":{"type":"string","foo_suggest":{"type":"completion"}}}}},"settings":{"number_of_shards":1}}'
+      string: '{"foo":"baz"}'
     headers:
       User-Agent:
       - Faraday v0.9.1
@@ -15,8 +15,8 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
     headers:
       Content-Type:
       - application/json; charset=UTF-8
@@ -24,7 +24,7 @@ http_interactions:
       - '81'
     body:
       encoding: UTF-8
-      string: '{"error":"IndexAlreadyExistsException[[test_index] already exists]","status":400}'
+      string: '{"_index":"test_index","_type":"test_doc","_id":"1","_version":3,"created":false}'
     http_version: 
-  recorded_at: Sat, 07 Feb 2015 19:44:17 GMT
+  recorded_at: Sat, 07 Feb 2015 20:12:56 GMT
 recorded_with: VCR 2.9.3

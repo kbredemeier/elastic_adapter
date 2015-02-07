@@ -26,5 +26,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"took":3,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":2,"max_score":1.0,"hits":[{"_index":"test_index","_type":"test_doc","_id":"1","_score":1.0,"_source":{"foo":"bar","foo_suggest":{"input":"bar"}}},{"_index":"test_index","_type":"test_doc","_id":"2","_score":1.0,"_source":{"foo":"zoo","foo_suggest":{"input":"zoo"}}}]}}'
     http_version: 
-  recorded_at: Sat, 07 Feb 2015 19:02:52 GMT
+  recorded_at: Sat, 07 Feb 2015 19:44:49 GMT
 recorded_with: VCR 2.9.3

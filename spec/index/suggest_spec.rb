@@ -7,8 +7,9 @@ module ElasticAdapter
     describe "#suggest", :vcr do
       before :all do
         create_test_index
-        index_documents(id: 1, foo: "bar", foo_suggest: {input: "bar"})
-        index_documents(id: 2, foo: "zoo", foo_suggest: {input: "zoo"})
+        doc1 = {id: 1, foo: "bar", foo_suggest: {input: "bar"}}
+        doc2 = {id: 2, foo: "zoo", foo_suggest: {input: "zoo"}}
+        index_documents([doc1, doc2])
       end
 
       after :all do

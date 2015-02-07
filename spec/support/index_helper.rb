@@ -1,4 +1,6 @@
 module IndexHelper
+  WAIT_TIME = 3
+
   def test_index(name = "test_index", options = {})
     params = {
       name: name,
@@ -26,7 +28,7 @@ module IndexHelper
     cassette_name = prefix + vcr_cassette_name_for(self.class.metadata)
 
     VCR.use_cassette cassette_name do
-      test_index("test_index", options).create_index.tap { sleep 2 if ENV["RECORDING"] }
+      test_index("test_index", options).create_index.tap { sleep WAIT_TIME if ENV["RECORDING"] }
     end
   end
 
@@ -47,9 +49,13 @@ module IndexHelper
 
     VCR.use_cassette cassette_name do
       documents.each do |document|
-        test_index("test_index", options).index(document).tap { sleep 2 if ENV["RECORDING"] }
+        test_index("test_index", options).index(document).tap { sleep WAIT_TIME if ENV["RECORDING"] }
       end
     end
+  end
+
+  def wait(time = WAIT_TIME)
+    sleep time if ENV["RECORDING"]
   end
 
   # Taken from https://github.com/vcr/vcr/blob/bbf43f2cd4cc18b450fb37bcb32aa9d427d4235e/lib/vcr/test_frameworks/rspec.rb
