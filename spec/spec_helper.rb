@@ -3,6 +3,9 @@ require "rake"
 require "webmock/rspec"
 require "vcr"
 require "support/index_helper"
+require "codeclimate-test-reporter"
+
+CodeClimate::TestReporter.start
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/cassettes'

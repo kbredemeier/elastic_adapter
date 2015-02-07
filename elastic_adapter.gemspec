@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock", "~> 1.20.4"
   spec.add_development_dependency "pry-byebug", "~> 3.0.1"
   spec.add_development_dependency "yard", "~> 0.8.7.6"
+  spec.add_development_dependency "codeclimate-test-reporter"
 end
