@@ -31,6 +31,8 @@ module ElasticAdapter
     # @param [Hash] hash
     # @return [Hash]
     def alter_object(object)
+      return object unless [Hash, Array].include? object.class
+
       object.inject({}) do |result, (key, value)|
         new_value = nil
 
