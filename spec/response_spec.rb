@@ -32,6 +32,13 @@ module ElasticAdapter
         response = Response.new(hash)
         expect(response.object).to eq expected
       end
+
+      it "works with arrays" do
+        hash = { "foo" => ["bar", "buz"] }
+        expected = { foo: ["bar", "buz"] }
+        response = Response.new(hash)
+        expect(response.object).to eq expected
+      end
     end
 
     describe "#failure?" do
