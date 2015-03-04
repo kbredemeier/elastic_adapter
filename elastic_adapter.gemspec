@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["k.bredemeier@gmail.com"]
   spec.summary       = %q{Repository like access to elasticseach indices}
   spec.description   = %q{Repository like access to elasticseach indices}
-  spec.homepage      = "https://github.com/kbredemeier/elastic_adatper"
+  spec.homepage      = "https://github.com/kbredemeier/elastic_adapter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
