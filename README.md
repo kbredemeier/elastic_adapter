@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kbredemeier/elastic_adatper.svg?branch=master)](https://travis-ci.org/kbredemeier/elastic_adatper) [![Code Climate](https://codeclimate.com/github/kbredemeier/elastic_adatper/badges/gpa.svg)](https://codeclimate.com/github/kbredemeier/elastic_adatper)
+[![Build Status](https://travis-ci.org/kbredemeier/elastic_adapter.svg?branch=master)](https://travis-ci.org/kbredemeier/elastic_adatper) [![Code Climate](https://codeclimate.com/github/kbredemeier/elastic_adatper/badges/gpa.svg)](https://codeclimate.com/github/kbredemeier/elastic_adatper)
 
 # ElasticAdapter
 
