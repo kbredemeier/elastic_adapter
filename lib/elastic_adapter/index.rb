@@ -188,6 +188,19 @@ module ElasticAdapter
       end
     end
 
+    # Executes a search request and wraps the response in an AggregationResponse
+    #
+    # @param [Hash] query
+    # @return [ElasticAdapter::Decoration::AggregationResponse]
+    def aggregate(query)
+      handle_api_call :aggregation do
+        client.search(
+          index: name,
+          body: query
+        )
+      end
+    end
+
     private
 
     def handle_api_call(*args)
