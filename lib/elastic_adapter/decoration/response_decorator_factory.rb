@@ -6,10 +6,11 @@ module ElasticAdapter
     # @see Response#decorate
     class ResponseDecoratorFactory
       class << self
-        # Takes a response and returns it with the right decorator
-        # applied
+        # Takes a response and multiple symbols and decorated response.
         #
         # @param [Hash] response a response returned by elasticsearch
+        # @param [Array<Symbol>] args the decorators the response should be decorated with.
+        #   Currently valid args are :count, :hit, :search, :validation, :suggestion
         # @return [Docorator] a decorated response
         def decorate(plain_response, *args)
           response = Response.new(plain_response)
