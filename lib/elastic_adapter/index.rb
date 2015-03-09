@@ -85,7 +85,7 @@ module ElasticAdapter
     # @param [Hash] query a query to count the documents for a given query. Defaults to match all
     # @return [Decoration::CountResponse] the count
     def count(query = { query: { match_all: {} } })
-      handle_api_call do
+      handle_api_call :count do
         client.count index: name, body: query
       end
     end
@@ -125,7 +125,7 @@ module ElasticAdapter
     # @param [Integer] id
     # @return [ElasticAdapter::HitDecorator]
     def get(id)
-      handle_api_call do
+      handle_api_call :hit do
         client.get(
           index: name,
           type: document_type.name,
@@ -145,7 +145,7 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::SearchResponse]
     def search(query)
-      handle_api_call do
+      handle_api_call :search do
         client.search(
           index: name,
           body: query
@@ -164,7 +164,7 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::SuggestResponse]
     def suggest(query)
-      handle_api_call do
+      handle_api_call :suggestion do
         client.suggest(
           index: name,
           body: query
@@ -179,7 +179,7 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::ValidationResponse]
     def validate(query)
-      handle_api_call do
+      handle_api_call :validation do
         client.indices.validate_query(
           index: name,
           explain: true,
@@ -190,8 +190,8 @@ module ElasticAdapter
 
     private
 
-    def handle_api_call
-      Response.new(yield).decorate
+    def handle_api_call(*args)
+      Decoration::ResponseDecoratorFactory.decorate(yield, *args)
     rescue Elasticsearch::Transport::Transport::Error => e
       Response.new(
         exception: e
