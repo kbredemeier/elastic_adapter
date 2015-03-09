@@ -1,5 +1,8 @@
 module ElasticAdapter
   module Decoration
+    # Used to decorate responses from the elasticsearch search api
+    #
+    # @attr_reader [Hash] aggregations
     class AggregationResponse < Decorator
       attr_reader :aggregations
 
