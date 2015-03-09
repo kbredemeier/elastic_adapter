@@ -52,7 +52,7 @@ module ElasticAdapter
         end
 
         it "updates the document" do
-          expect(subject.get(1)[:foo]).to eq "baz"
+          expect(subject.get(1).document[:foo]).to eq "baz"
         end
       end
     end

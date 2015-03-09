@@ -85,9 +85,11 @@ module ElasticAdapter
     # @param [Hash] query a query to count the documents for a given query. Defaults to match all
     # @return [Decoration::CountResponse] the count
     def count(query = { query: { match_all: {} } })
-      handle_api_call :count do
+      response = handle_api_call :count do
         client.count index: name, body: query
       end
+
+      response.count || response
     end
 
     # Indexes a Hash or anything that responds to to_hash as a document
@@ -125,7 +127,7 @@ module ElasticAdapter
     # @param [Integer] id
     # @return [ElasticAdapter::HitDecorator]
     def get(id)
-      handle_api_call :hit do
+      handle_api_call :get do
         client.get(
           index: name,
           type: document_type.name,
@@ -204,9 +206,9 @@ module ElasticAdapter
     private
 
     def handle_api_call(*args)
-      Decoration::ResponseDecoratorFactory.decorate(yield, *args)
+      Responses::ResponseDecoratorFactory.decorate(yield, *args)
     rescue Elasticsearch::Transport::Transport::Error => e
-      Response.new(
+      Responses::SanitizedResponse.new(
         exception: e
       )
     end

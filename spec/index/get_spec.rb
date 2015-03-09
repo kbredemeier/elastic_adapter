@@ -19,8 +19,10 @@ module ElasticAdapter
         let(:response) { subject.get(1) }
 
         describe "response" do
-          it "contains the document" do
-            expect(response).to eq document
+          describe "document" do
+            it "returns the document" do
+              expect(response.document).to eq document
+            end
           end
         end
       end

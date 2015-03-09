@@ -26,5 +26,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"took":2,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":1,"max_score":0.30685282,"hits":[{"_index":"test_index","_type":"test_doc","_id":"2","_score":0.30685282,"_source":{"foo":"zoo","foo_suggest":{"input":"zoo"}}}]}}'
     http_version: 
-  recorded_at: Sat, 07 Feb 2015 19:44:49 GMT
+  recorded_at: Mon, 09 Mar 2015 18:47:23 GMT
 recorded_with: VCR 2.9.3

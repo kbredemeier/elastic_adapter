@@ -1,20 +1,16 @@
 module ElasticAdapter
-  module Decoration
-    # Used to decorate responses from the elasticsearch search api
-    #
-    # @attr_reader [Hash] aggregations
-    class AggregationResponse < Decorator
+  module Responses
+    class AggregationResponse < BaseResponse
       attr_reader :aggregations
 
-      # Reduces the interface
-      #
-      # @param [Hash] hash
-      # @return [Hash]
-      def alter_object(hash)
+      private
+
+      def set_instance_variables
         new_hash = {}
+
         new_hash[:aggregations] = {}
 
-        hash[:aggregations].each do |key, value|
+        object[:aggregations].each do |key, value|
           new_hash[:aggregations][key] = []
 
           value[:buckets].each do |agg|
@@ -26,8 +22,6 @@ module ElasticAdapter
         end
 
         @aggregations = new_hash[:aggregations]
-
-        new_hash
       end
     end
   end

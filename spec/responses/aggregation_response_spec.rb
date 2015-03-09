@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module ElasticAdapter
-  module Decoration
+  module Responses
     describe AggregationResponse do
       let(:response){{
         aggregations: {
@@ -52,7 +52,6 @@ module ElasticAdapter
           end
         end
       end
-
     end
   end
 end

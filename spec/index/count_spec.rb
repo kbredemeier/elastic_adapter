@@ -18,8 +18,8 @@ module ElasticAdapter
           expect(subject.count).to eq 0
         end
 
-        it "is a response" do
-          expect(subject.count).to be_a Decoration::CountResponse
+        it "is a fixnum" do
+          expect(subject.count).to be_a Fixnum
         end
       end
 
@@ -37,8 +37,8 @@ module ElasticAdapter
           expect(subject.count).to eq 1
         end
 
-        it "is a response" do
-          expect(subject.count).to be_a Decoration::CountResponse
+        it "is a fixnum" do
+          expect(subject.count).to be_a Fixnum
         end
       end
     end

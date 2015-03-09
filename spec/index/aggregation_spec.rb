@@ -26,7 +26,7 @@ module ElasticAdapter
         }}
 
         it "is a AggregationResponse" do
-          expect(subject.aggregate(query)).to be_a Decoration::AggregationResponse
+          expect(subject.aggregate(query)).to be_a Responses::AggregationResponse
         end
       end
     end

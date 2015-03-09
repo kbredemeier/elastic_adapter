@@ -17,19 +17,19 @@ module ElasticAdapter
 
       context "match_all" do
         it "returns all documents" do
-          expect(subject.search({query: {match_all: {}}}).count).to eq 2
+          expect(subject.search({query: {match_all: {}}}).hits.count).to eq 2
         end
       end
 
       context "zoo" do
         let(:response) { subject.search(query: {match: {foo: "zoo"}})}
         it "returns one document" do
-          expect(response.count).to eq 1
+          expect(response.hits.count).to eq 1
         end
 
         it "returns the wanted document" do
-          expect(response[:hits].first[:id]).to eq "2"
-          expect(response[:hits].first[:foo]).to eq "zoo"
+          expect(response.hits.first[:id]).to eq "2"
+          expect(response.hits.first[:foo]).to eq "zoo"
         end
       end
     end

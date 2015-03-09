@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module ElasticAdapter
-  module Decoration
+  module Responses
     describe ResponseDecoratorFactory do
       describe "class methods" do
         describe "#decorate" do
@@ -14,12 +14,12 @@ module ElasticAdapter
             end
           end
 
-          context "hit" do
+          context "get" do
             let(:response) {{ source: {} }}
-            subject { ResponseDecoratorFactory.decorate(response, :hit) }
+            subject { ResponseDecoratorFactory.decorate(response, :get) }
 
-            it "returns a HitDecorator" do
-              expect(subject).to be_a HitDecorator
+            it "returns a GetResponse" do
+              expect(subject).to be_a GetResponse
             end
           end
 
@@ -42,7 +42,22 @@ module ElasticAdapter
           end
 
           context "suggestion" do
-            let(:response) {{ foo: "bar", foo_suggestion: [{options: []}] }}
+            let(:response) {{
+              my_suggest_1: [
+                {
+                  text: "amsterdma",
+                  offset: 4,
+                  length: 9,
+                  options: [
+                    {
+                      text: "amsterdam",
+                      freq: 77,
+                      score: 0.8888889
+                    }
+                  ]
+                }
+              ]
+            }}
             subject { ResponseDecoratorFactory.decorate(response, :suggestion) }
 
             it "returns a SuggestionResponse" do
@@ -69,6 +84,39 @@ module ElasticAdapter
 
             it "returns a AggregationResponse" do
               expect(subject).to be_a AggregationResponse
+            end
+          end
+
+          context "mixed aggregation and search" do
+            let(:response){{
+              hits: { hits: [] },
+              aggregations: {
+                products: {
+                  doc_count_error_upper_bound: 46,
+                  buckets: [
+                    {
+                      key: "Product A",
+                      doc_count: 100
+                    }
+                  ]
+                }
+              }
+            }}
+
+            subject { ResponseDecoratorFactory.decorate(response, :aggregation, :search) }
+
+            it "doent raise an exception" do
+              expect{
+                subject
+              }.not_to raise_error
+            end
+
+            it "behaves like a AggregationResponse" do
+              expect(subject).to respond_to :aggregations
+            end
+
+            it "behaves like a SearchResponse" do
+              expect(subject).to respond_to :count
             end
           end
         end
