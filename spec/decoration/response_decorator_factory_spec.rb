@@ -49,6 +49,28 @@ module ElasticAdapter
               expect(subject).to be_a SuggestionResponse
             end
           end
+
+          context "aggregation" do
+            let(:response){{
+              aggregations: {
+                products: {
+                  doc_count_error_upper_bound: 46,
+                  buckets: [
+                    {
+                      key: "Product A",
+                      doc_count: 100
+                    }
+                  ]
+                }
+              }
+            }}
+
+            subject { ResponseDecoratorFactory.decorate(response, :aggregation) }
+
+            it "returns a AggregationResponse" do
+              expect(subject).to be_a AggregationResponse
+            end
+          end
         end
       end
     end

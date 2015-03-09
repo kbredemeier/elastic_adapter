@@ -20,6 +20,7 @@ module ElasticAdapter
           response = SearchResponse.new(response) if args.include? :search
           response = ValidationResponse.new(response) if args.include? :validation
           response = SuggestionResponse.new(response) if args.include? :suggestion
+          response = AggregationResponse.new(response) if args.include? :aggregation
 
           response
         end
