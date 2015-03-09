@@ -5,69 +5,50 @@ module ElasticAdapter
     describe ResponseDecoratorFactory do
       describe "class methods" do
         describe "#decorate" do
-          context "response with exception" do
-            let(:response) {{ exception: ArgumentError.new }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
-
-            it "returns the unmodified response" do
-              expect(subject).to be response
-            end
-          end
-
-          context "response with acknowledged" do
+          context "count" do
             let(:response) {{ acknowledged: true }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
-
-            it "returns the unmodified response" do
-              expect(subject).to be response
-            end
-          end
-
-          context "response with source" do
-            let(:response) {{ source: {} }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
-
-            it "returns a HitDecorator" do
-              expect(subject).to be_a HitDecorator
-            end
-          end
-
-          context "response with hits" do
-            let(:response) {{ hits: {hits: []} }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
-
-            it "returns a SearchResponse" do
-              expect(subject).to be_a SearchResponse
-            end
-          end
-
-          context "response with count" do
-            let(:response) {{ count: {count: 1} }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
+            subject { ResponseDecoratorFactory.decorate(response, :count) }
 
             it "returns a CountResponse" do
               expect(subject).to be_a CountResponse
             end
           end
 
-          context "response with options" do
+          context "hit" do
+            let(:response) {{ source: {} }}
+            subject { ResponseDecoratorFactory.decorate(response, :hit) }
+
+            it "returns a HitDecorator" do
+              expect(subject).to be_a HitDecorator
+            end
+          end
+
+          context "search" do
+            let(:response) {{ hits: {hits: []} }}
+            subject { ResponseDecoratorFactory.decorate(response, :search) }
+
+            it "returns a SearchResponse" do
+              expect(subject).to be_a SearchResponse
+            end
+          end
+
+          context "validation" do
+            let(:response) {{ valid: true }}
+            subject { ResponseDecoratorFactory.decorate(response, :validation) }
+
+            it "returns a ValidationResponse" do
+              expect(subject).to be_a ValidationResponse
+            end
+          end
+
+          context "suggestion" do
             let(:response) {{ foo: "bar", foo_suggestion: [{options: []}] }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
+            subject { ResponseDecoratorFactory.decorate(response, :suggestion) }
 
             it "returns a SuggestionResponse" do
               expect(subject).to be_a SuggestionResponse
             end
           end
-
-          context "response with everything_else" do
-            let(:response) {{ everything_else: {} }}
-            let(:subject) { ResponseDecoratorFactory.decorate(response)}
-
-            it "returns a Response" do
-              expect(subject).to be_a Hash
-            end
-          end
-
         end
       end
     end

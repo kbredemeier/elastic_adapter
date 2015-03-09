@@ -11,18 +11,14 @@ module ElasticAdapter
         #
         # @param [Hash] response a response returned by elasticsearch
         # @return [Docorator] a decorated response
-        def decorate(response)
-          if response.key? :count
-            return CountResponse.new(response)
-          elsif response.key? :source
-            return HitDecorator.new(response)
-          elsif response.key? :hits
-            return SearchResponse.new(response)
-          elsif response.key? :valid
-            return ValidationResponse.new(response)
-          elsif suggestion?(response)
-            return SuggestionResponse.new(response)
-          end
+        def decorate(plain_response, *args)
+          response = Response.new(plain_response)
+
+          response = CountResponse.new(response) if args.include? :count
+          response = HitDecorator.new(response) if args.include? :hit
+          response = SearchResponse.new(response) if args.include? :search
+          response = ValidationResponse.new(response) if args.include? :validation
+          response = SuggestionResponse.new(response) if args.include? :suggestion
 
           response
         end
