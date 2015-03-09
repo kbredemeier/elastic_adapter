@@ -60,28 +60,5 @@ module ElasticAdapter
         end
       end
     end
-
-    describe "#decorate" do
-      context "find request" do
-        let(:document) { {foo: "bar", id: 1} }
-        let(:response_hash) do
-          {
-            "found" => true,
-            "_id" => 1,
-            "_source" => {
-              "foo" => "bar"
-            }
-          }
-        end
-
-        let(:response) do
-          response = Response.new(response_hash)
-        end
-
-        it "is the document" do
-          expect(response.decorate.to_hash).to eq document
-        end
-      end
-    end
   end
 end

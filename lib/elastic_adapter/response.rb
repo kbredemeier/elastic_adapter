@@ -15,13 +15,6 @@ module ElasticAdapter
       key?(:exception)
     end
 
-    # Decorates the response with the right decorator
-    #
-    # @return [Decorator] returns the decorated response
-    def decorate
-      Decoration::ResponseDecoratorFactory.decorate(self)
-    end
-
     private
 
     # Sanitizes a nested hash. It removes leading underscores
