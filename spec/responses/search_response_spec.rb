@@ -23,6 +23,36 @@ module ElasticAdapter
               }
             }
           ]
+        },
+        aggregations: {
+          products: {
+            doc_count_error_upper_bound: 46,
+            buckets: [
+              {
+                key: "Product A",
+                doc_count: 100
+              },
+              {
+                key: "Product Z",
+                doc_count: 52
+              }
+            ]
+          }
+        },
+        suggest: {
+          foo_suggest: [
+            {
+              text: "ba",
+              offset: 0,
+              length: 2,
+              options: [
+                {
+                  text: "bar",
+                  score: 1.0
+                }
+              ]
+            }
+          ]
         }
       }}
 
@@ -36,6 +66,71 @@ module ElasticAdapter
             postDate: "2009-11-15T14:12:12",
             message: "trying out Elasticsearch"
           })
+        end
+      end
+
+      describe "#aggregations" do
+        it "counts one" do
+          expect(subject.aggregations.count).to eq 1
+        end
+
+        it "contains products" do
+          expect(subject.aggregations).to have_key :products
+        end
+
+        describe "products" do
+          it "counts two" do
+            expect(subject.aggregations[:products].count).to eq 2
+          end
+
+          it "contains Product A with it's count" do
+            expect(subject.aggregations[:products]).to include({
+              term: "Product A",
+              count: 100
+            })
+          end
+
+          it "contains Product Z with it's count" do
+            expect(subject.aggregations[:products]).to include({
+              term: "Product Z",
+              count: 52
+            })
+          end
+        end
+      end
+
+      describe "suggestions" do
+        it "is an array" do
+          expect(subject.suggestions).to be_an Array
+        end
+
+        describe "first suggestion" do
+          describe "#terms" do
+            it "is an Array" do
+              expect(subject.suggestions.first.terms).to be_an Array
+            end
+
+            it "counts one" do
+              expect(subject.suggestions.first.terms.count).to eq 1
+            end
+
+            describe "first term" do
+              describe "#text" do
+                it "equals 'ba'" do
+                  expect(subject.suggestions.first.terms.first.text).to eq "ba"
+                end
+
+                describe "#options" do
+                  it "includes the options" do
+                    expect(subject.suggestions.first.terms.first.options).to include({
+                      text: "bar",
+                      score: 1.0
+                    })
+                  end
+                end
+              end
+            end
+          end
         end
       end
     end
