@@ -58,6 +58,14 @@ module ElasticAdapter
 
       subject { SearchResponse.new(response) }
 
+      context "empty response" do
+        let(:response) {{}}
+
+        it "should not fail" do
+          expect { subject }.not_to raise_error
+        end
+      end
+
       describe "hits" do
         it "returns the hits" do
           expect(subject.hits).to include({

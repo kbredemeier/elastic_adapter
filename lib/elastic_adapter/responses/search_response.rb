@@ -12,10 +12,12 @@ module ElasticAdapter
       end
 
       def collect_hits
+        return [] unless object[:hits]
         object[:hits][:hits].map { |hit| { id: hit[:id] }.merge(hit[:source]) }
       end
 
       def collect_aggregations
+        return [] unless object[:aggregations]
         aggs = {}
         object[:aggregations].each do |agg_name, result|
           aggs[agg_name] = []
@@ -27,6 +29,7 @@ module ElasticAdapter
       end
 
       def collect_suggestions
+        return [] unless object[:suggest]
         object[:suggest].map { |suggestion_name, content|
           # In this context key is the named suggestion
           # returned by elasticsearch
