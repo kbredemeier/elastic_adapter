@@ -17,15 +17,7 @@ module ElasticAdapter
       end
 
       def collect_aggregations
-        return [] unless object[:aggregations]
-        aggs = {}
-        object[:aggregations].each do |agg_name, result|
-          aggs[agg_name] = []
-          result[:buckets].each do |agg|
-            aggs[agg_name] << { term: agg[:key], count: agg[:doc_count] }
-          end
-        end
-        aggs
+        object.fetch(:aggregations, [])
       end
 
       def collect_suggestions

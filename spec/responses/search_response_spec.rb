@@ -78,32 +78,8 @@ module ElasticAdapter
       end
 
       describe "#aggregations" do
-        it "counts one" do
-          expect(subject.aggregations.count).to eq 1
-        end
-
-        it "contains products" do
-          expect(subject.aggregations).to have_key :products
-        end
-
-        describe "products" do
-          it "counts two" do
-            expect(subject.aggregations[:products].count).to eq 2
-          end
-
-          it "contains Product A with it's count" do
-            expect(subject.aggregations[:products]).to include({
-              term: "Product A",
-              count: 100
-            })
-          end
-
-          it "contains Product Z with it's count" do
-            expect(subject.aggregations[:products]).to include({
-              term: "Product Z",
-              count: 52
-            })
-          end
+        it "returns the aggregations" do
+          expect(subject.aggregations).to eq response[:aggregations]
         end
       end
 
