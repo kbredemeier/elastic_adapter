@@ -29,6 +29,8 @@ module ElasticAdapter
   class Index
     attr_reader :name, :settings, :document_type, :url, :log, :client
 
+    ELASTICSEARCH_ERRORS = [Elasticsearch::Transport::Transport::Error]
+
     # @param [Hash] params
     # @option params [String] :name required
     # @option params [Hash] :settings required
@@ -87,9 +89,7 @@ module ElasticAdapter
     def count(query = { query: { match_all: {} } })
       response = handle_api_call :count do
         client.count index: name, body: query
-      end
-
-      response.count || response
+      end.extend(Responses::WithCount)
     end
 
     # Indexes a Hash or anything that responds to to_hash as a document
@@ -133,7 +133,7 @@ module ElasticAdapter
           type: document_type.name,
           id: id
         )
-      end
+      end.extend(Responses::WithHit)
     end
 
     # Searches the index for documents matching the passed query.
@@ -153,6 +153,9 @@ module ElasticAdapter
           body: query
         )
       end
+        .extend(Responses::WithSuggestions)
+        .extend(Responses::WithAggregations)
+        .extend(Responses::WithHits)
     end
 
     # Searches the index for suggestions for the passed suggest query
@@ -166,12 +169,12 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::SuggestResponse]
     def suggest(query)
-      handle_api_call :suggestion do
+      handle_api_call do
         client.suggest(
           index: name,
           body: query
         )
-      end
+      end.extend(Responses::WithSuggestions)
     end
 
     # Validates the passed query
@@ -181,13 +184,13 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::ValidationResponse]
     def validate(query)
-      handle_api_call :validation do
+      handle_api_call do
         client.indices.validate_query(
           index: name,
           explain: true,
           body: query
         )
-      end
+      end.extend(Responses::WithValidations)
     end
 
     # Executes a search request and wraps the response in an AggregationResponse
@@ -195,22 +198,20 @@ module ElasticAdapter
     # @param [Hash] query
     # @return [ElasticAdapter::Decoration::AggregationResponse]
     def aggregate(query)
-      handle_api_call :aggregation do
+      handle_api_call do
         client.search(
           index: name,
           body: query
         )
-      end
+      end.extend(Responses::WithAggregations)
     end
 
     private
 
     def handle_api_call(*args)
-      Responses::ResponseDecoratorFactory.decorate(yield, *args)
-    rescue Elasticsearch::Transport::Transport::Error => e
-      Responses::SanitizedResponse.new(
-        exception: e
-      )
+      Response.new(yield)
+    rescue *ELASTICSEARCH_ERRORS => e
+      Response.new(exception: e).extend(Responses::WithException)
     end
   end
 end

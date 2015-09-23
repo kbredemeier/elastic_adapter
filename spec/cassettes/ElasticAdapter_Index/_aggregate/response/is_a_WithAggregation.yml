@@ -21,10 +21,10 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '483'
+      - '363'
     body:
       encoding: UTF-8
-      string: '{"took":7,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":2,"max_score":1.0,"hits":[{"_index":"test_index","_type":"test_doc","_id":"AUv-oTm7Ngm7ooYjXOfD","_score":1.0,"_source":{"foo":"bar","group":"A"}},{"_index":"test_index","_type":"test_doc","_id":"AUv-n2n-Ngm7ooYjXOVX","_score":1.0,"_source":{"foo":"bar","group":"A"}}]},"aggregations":{"group":{"doc_count_error_upper_bound":0,"sum_other_doc_count":0,"buckets":[{"key":"a","doc_count":2}]}}}'
+      string: '{"took":95,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":1,"max_score":1.0,"hits":[{"_index":"test_index","_type":"test_doc","_id":"AU_7DbDscLMsSRqdq03G","_score":1.0,"_source":{"foo":"bar","group":"A"}}]},"aggregations":{"group":{"doc_count_error_upper_bound":0,"sum_other_doc_count":0,"buckets":[{"key":"a","doc_count":1}]}}}'
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 13:02:38 GMT
+  recorded_at: Wed, 23 Sep 2015 16:33:51 GMT
 recorded_with: VCR 2.9.3

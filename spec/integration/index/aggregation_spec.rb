@@ -25,8 +25,16 @@ module ElasticAdapter
           }
         }}
 
-        it "is a AggregationResponse" do
-          expect(subject.aggregate(query)).to be_a Responses::AggregationResponse
+        before do
+          @response = subject.aggregate(query)
+        end
+
+        it "is a WithAggregation" do
+          expect(@response.singleton_class).to be < Responses::WithAggregations
+        end
+
+        it "has a aggregation" do
+          expect(@response.aggregations).not_to be_empty
         end
       end
     end

@@ -28,14 +28,10 @@ module ElasticAdapter
           }
         end
 
-        let(:response) { subject.suggest(query)}
-
-        it "returns one result" do
-          expect(response.suggestions.first.terms.first.options.count).to eq 1
-        end
+        let(:response) { subject.suggest(query) }
 
         it "returns bar" do
-          expect(response.suggestions.first.terms.first.options.first[:text]).to eq "bar"
+          expect(response[:foo_suggest].first[:options].first[:text]).to eq "bar"
         end
       end
     end

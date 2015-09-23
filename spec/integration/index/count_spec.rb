@@ -10,16 +10,14 @@ module ElasticAdapter
           create_test_index
         end
 
+
         after :all do
           delete_test_index
         end
 
         it "returns the amount of all documents" do
-          expect(subject.count).to eq 0
-        end
-
-        it "is a fixnum" do
-          expect(subject.count).to be_a Fixnum
+          result = subject.count
+          expect(result.count).to eq 0
         end
       end
 
@@ -34,11 +32,8 @@ module ElasticAdapter
         end
 
         it "returns 1" do
-          expect(subject.count).to eq 1
-        end
-
-        it "is a fixnum" do
-          expect(subject.count).to be_a Fixnum
+          result = subject.count
+          expect(result.count).to eq 1
         end
       end
     end

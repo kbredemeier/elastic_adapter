@@ -28,8 +28,8 @@ module ElasticAdapter
         end
 
         it "returns the wanted document" do
-          expect(response.hits.first[:id]).to eq "2"
-          expect(response.hits.first[:foo]).to eq "zoo"
+          expect(response.hits.first[:_id]).to eq "2"
+          expect(response.hits.first[:_source][:foo]).to eq "zoo"
         end
       end
     end

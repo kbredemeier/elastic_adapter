@@ -27,29 +27,14 @@ module ElasticAdapter
             expect(response.valid?).to be false
           end
         end
-
-        it "is a response" do
-          expect(response).to be_a Responses::ValidationResponse
-        end
       end
 
       context "valid query" do
-        let(:query) do
-          {
-            query: {
-              match_all: {}
-            }
-          }
-        end
-
+        let(:query) {{ query: { match_all: {} } }}
         let(:response) { subject.validate(query) }
 
         it "is true" do
           expect(response.valid?).to eq true
-        end
-
-        it "is a response" do
-          expect(response).to be_a Responses::ValidationResponse
         end
       end
     end

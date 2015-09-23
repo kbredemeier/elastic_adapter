@@ -27,5 +27,5 @@ http_interactions:
       string: '{"valid":false,"_shards":{"total":1,"successful":1,"failed":0},"explanations":[{"index":"test_index","valid":false,"error":"org.elasticsearch.index.query.QueryParsingException:
         [test_index] request does not support [asd]"}]}'
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 20:01:53 GMT
+  recorded_at: Wed, 23 Sep 2015 16:34:49 GMT
 recorded_with: VCR 2.9.3

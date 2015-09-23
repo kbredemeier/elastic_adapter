@@ -1,6 +1,6 @@
 RSpec.shared_examples "response without exception" do
   it "is a Response" do
-    expect(response).to be_a ElasticAdapter::Responses::SanitizedResponse
+    expect(response).to be_a ElasticAdapter::Response
   end
 
   it "has no exception" do
@@ -10,7 +10,7 @@ end
 
 RSpec.shared_examples "response with exception" do
   it "is a Response" do
-    expect(response).to be_a ElasticAdapter::Responses::SanitizedResponse
+    expect(response).to be_a ElasticAdapter::Response
   end
 
   it "has an exception" do

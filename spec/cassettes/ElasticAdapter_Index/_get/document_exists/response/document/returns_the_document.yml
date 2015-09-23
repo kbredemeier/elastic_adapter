@@ -26,5 +26,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"_index":"test_index","_type":"test_doc","_id":"1","_version":1,"found":true,"_source":{"foo":"bar"}}'
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 17:55:30 GMT
+  recorded_at: Wed, 23 Sep 2015 16:34:17 GMT
 recorded_with: VCR 2.9.3
