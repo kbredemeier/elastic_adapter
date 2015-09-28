@@ -5,7 +5,7 @@ module ElasticAdapter
         attr_reader :count
 
         def initialize(response)
-          @count = response.fetch(:hits, {}).fetch(:total, {})
+          @count = response.fetch(:hits, {}).fetch(:total, 0)
           __setobj__(response.fetch(:hits, {}).fetch(:hits, []))
         end
       end
