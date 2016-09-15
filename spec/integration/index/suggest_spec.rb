@@ -31,7 +31,7 @@ module ElasticAdapter
         let(:response) { subject.suggest(query) }
 
         it "returns bar" do
-          expect(response[:foo_suggest].first[:options].first[:text]).to eq "bar"
+          expect(response['foo_suggest'].first['options'].first['text']).to eq 'bar'
         end
       end
     end

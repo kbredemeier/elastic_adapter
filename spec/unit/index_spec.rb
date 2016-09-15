@@ -110,9 +110,10 @@ module ElasticAdapter
         subject.count(query)
       end
 
-      it "returns a response with count" do
+      it "returns the response" do
         expect(client).to receive(:count).and_return({})
-        expect(subject.count(query).singleton_class).to be < Responses::WithCount
+        result = subject.count(query)
+        expect(result).to eq({})
       end
     end
 
@@ -130,10 +131,10 @@ module ElasticAdapter
         subject.index(doc)
       end
 
-      it "returns a response" do
+      it "returns the response" do
         expect(client).to receive(:index).and_return({})
         result = subject.index(doc)
-        expect(result).to be_a Response
+        expect(result).to eq({})
       end
     end
 
@@ -143,10 +144,10 @@ module ElasticAdapter
         subject.get(1)
       end
 
-      it "returns a response with hit" do
+      it "returns the response" do
         expect(client).to receive(:get).and_return({})
         result = subject.get(1)
-        expect(result.singleton_class).to be < Responses::WithHit
+        expect(result).to eq({})
       end
     end
 
@@ -156,12 +157,10 @@ module ElasticAdapter
         subject.search(query)
       end
 
-      it "returns a response with hits, aggregations and suggestions" do
+      it "returns the response" do
         expect(client).to receive(:search).and_return({})
         result = subject.search(query)
-        expect(result.singleton_class).to be < Responses::WithHits
-        expect(result.singleton_class).to be < Responses::WithSuggestions
-        expect(result.singleton_class).to be < Responses::WithAggregations
+        expect(result).to eq({})
       end
     end
 
@@ -171,10 +170,10 @@ module ElasticAdapter
         subject.suggest(query)
       end
 
-      it "returns a response with suggestions" do
+      it "returns the response" do
         expect(client).to receive(:suggest).and_return({})
         result = subject.suggest(query)
-        expect(result.singleton_class).to be < Responses::WithSuggestions
+        expect(result).to eq({})
       end
     end
 
@@ -184,10 +183,10 @@ module ElasticAdapter
         subject.aggregate(query)
       end
 
-      it "returns a response with aggregations" do
+      it "returns the response" do
         expect(client).to receive(:search).and_return({})
         result = subject.aggregate(query)
-        expect(result.singleton_class).to be < Responses::WithAggregations
+        expect(result).to eq({})
       end
     end
 
@@ -197,21 +196,10 @@ module ElasticAdapter
         subject.validate(query)
       end
 
-      it "returns a response with validations" do
+      it "returns the response" do
         expect(indices).to receive(:validate_query).and_return({})
         result = subject.validate(query)
-        expect(result.singleton_class).to be < Responses::WithValidations
-      end
-    end
-
-    describe "error handling" do
-      before do
-        allow(client).to receive(:search).and_raise(Elasticsearch::Transport::Transport::Error)
-      end
-
-      it "returns a response with exception" do
-        result = subject.search(query)
-        expect(result.singleton_class).to be < Responses::WithException
+        expect(result).to eq({})
       end
     end
   end

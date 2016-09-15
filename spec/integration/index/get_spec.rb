@@ -22,13 +22,14 @@ module ElasticAdapter
           describe "document" do
             it "returns the document" do
               expected = {
-                _index: "test_index",
-                _type: "test_doc",
-                _id: "1",
-                _version: 1,
-                _source: { foo: "bar" }
+                '_index' => 'test_index',
+                '_type' => "test_doc",
+                '_id' => "1",
+                '_version' => 1,
+                'found' => true,
+                '_source' => { 'foo' => 'bar' }
               }
-              expect(response.hit).to eq expected
+              expect(response).to eq expected
             end
           end
         end

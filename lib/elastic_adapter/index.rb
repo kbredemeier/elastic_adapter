@@ -29,8 +29,6 @@ module ElasticAdapter
   class Index
     attr_reader :name, :settings, :document_type, :url, :log, :client
 
-    ELASTICSEARCH_ERRORS = [Elasticsearch::Transport::Transport::Error]
-
     # @param [Hash] params
     # @option params [String] :name required
     # @option params [Hash] :settings required
@@ -56,28 +54,24 @@ module ElasticAdapter
     #
     # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-create-index.html Elasticsearch create index
     #
-    # @return [ElasticAdapter::Response]
+    # @return [Hash]
     def create_index
-      handle_api_call do
-        client.indices.create(
-          index: name,
-          body: {
-            mappings: document_type.mappings,
-            settings: settings
-          }
-        )
-      end
+      client.indices.create(
+        index: name,
+        body: {
+          mappings: document_type.mappings,
+          settings: settings
+        }
+      )
     end
 
     # Deletes the index
     #
     # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-delete-index.html Elasticsearch delete index
     #
-    # @return [ElasticAdapter::Response]
+    # @return [Hash]
     def delete_index
-      handle_api_call do
-        client.indices.delete index: name
-      end
+      client.indices.delete index: name
     end
 
     # Returns the document count for the index
@@ -85,11 +79,9 @@ module ElasticAdapter
     # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-count.html#search-count Elasticsearch count api
     #
     # @param [Hash] query a query to count the documents for a given query. Defaults to match all
-    # @return [Decoration::CountResponse] the count
+    # @return [Hash] the count
     def count(query = { query: { match_all: {} } })
-      response = handle_api_call :count do
-        client.count index: name, body: query
-      end.extend(Responses::WithCount)
+      client.count index: name, body: query
     end
 
     # Indexes a Hash or anything that responds to to_hash as a document
@@ -102,7 +94,7 @@ module ElasticAdapter
     #   test_index.index(id: 1, name: "foo")
     #
     # @param [Hash] document
-    # @return [Response]
+    # @return [Hash]
     def index(document)
       doc = document.to_hash.merge({})
 
@@ -113,11 +105,7 @@ module ElasticAdapter
         body: doc
       }
 
-      response = handle_api_call do
-        client.index(params)
-      end
-
-      response
+      client.index(params)
     end
 
     # Returns the document with the given id from the index
@@ -127,13 +115,11 @@ module ElasticAdapter
     # @param [Integer] id
     # @return [ElasticAdapter::HitDecorator]
     def get(id)
-      handle_api_call :get do
-        client.get(
-          index: name,
-          type: document_type.name,
-          id: id
-        )
-      end.extend(Responses::WithHit)
+      client.get(
+        index: name,
+        type: document_type.name,
+        id: id
+      )
     end
 
     # Searches the index for documents matching the passed query.
@@ -145,17 +131,12 @@ module ElasticAdapter
     #   test_index.seach(query: {match: {foo: "bar"}})
     #
     # @param [Hash] query
-    # @return [ElasticAdapter::SearchResponse]
+    # @return [Hash]
     def search(query)
-      handle_api_call :search do
-        client.search(
-          index: name,
-          body: query
-        )
-      end
-        .extend(Responses::WithSuggestions)
-        .extend(Responses::WithAggregations)
-        .extend(Responses::WithHits)
+      client.search(
+        index: name,
+        body: query
+      )
     end
 
     # Searches the index for suggestions for the passed suggest query
@@ -167,14 +148,12 @@ module ElasticAdapter
     #   test_index.seach(name_suggestions: {text: "foo", completion: {field: "name"}})
     #
     # @param [Hash] query
-    # @return [ElasticAdapter::SuggestResponse]
+    # @return [Hash]
     def suggest(query)
-      handle_api_call do
-        client.suggest(
-          index: name,
-          body: query
-        )
-      end.extend(Responses::WithSuggestions)
+      client.suggest(
+        index: name,
+        body: query
+      )
     end
 
     # Validates the passed query
@@ -182,36 +161,24 @@ module ElasticAdapter
     # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-validate.html Elasticsearch validate api
     #
     # @param [Hash] query
-    # @return [ElasticAdapter::ValidationResponse]
+    # @return [Hash]
     def validate(query)
-      handle_api_call do
-        client.indices.validate_query(
-          index: name,
-          explain: true,
-          body: query
-        )
-      end.extend(Responses::WithValidations)
+      client.indices.validate_query(
+        index: name,
+        explain: true,
+        body: query
+      )
     end
 
-    # Executes a search request and wraps the response in an AggregationResponse
+    # Executes a search request and returns the response
     #
     # @param [Hash] query
-    # @return [ElasticAdapter::Decoration::AggregationResponse]
+    # @return [Hash]
     def aggregate(query)
-      handle_api_call do
-        client.search(
-          index: name,
-          body: query
-        )
-      end.extend(Responses::WithAggregations)
-    end
-
-    private
-
-    def handle_api_call(*args)
-      Response.new(yield)
-    rescue *ELASTICSEARCH_ERRORS => e
-      Response.new(exception: e).extend(Responses::WithException)
+      client.search(
+        index: name,
+        body: query
+      )
     end
   end
 end

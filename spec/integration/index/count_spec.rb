@@ -10,14 +10,14 @@ module ElasticAdapter
           create_test_index
         end
 
-
         after :all do
           delete_test_index
         end
 
+        before { @result = subject.count }
+
         it "returns the amount of all documents" do
-          result = subject.count
-          expect(result.count).to eq 0
+          expect(@result['count']).to eq 0
         end
       end
 
@@ -31,9 +31,10 @@ module ElasticAdapter
           delete_test_index
         end
 
+        before { @result = subject.count }
+
         it "returns 1" do
-          result = subject.count
-          expect(result.count).to eq 1
+          expect(@result['count']).to eq 1
         end
       end
     end

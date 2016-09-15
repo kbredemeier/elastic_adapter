@@ -1,5 +1,4 @@
 require "spec_helper"
-require_relative "./shared_examples.rb"
 
 RSpec.shared_context "index context" do
   let(:name) { "test_index" }

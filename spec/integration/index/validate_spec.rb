@@ -24,7 +24,7 @@ module ElasticAdapter
 
         describe "valid?" do
           it "is false" do
-            expect(response.valid?).to be false
+            expect(response['valid']).to be false
           end
         end
       end
@@ -34,7 +34,7 @@ module ElasticAdapter
         let(:response) { subject.validate(query) }
 
         it "is true" do
-          expect(response.valid?).to eq true
+          expect(response['valid']).to eq true
         end
       end
     end

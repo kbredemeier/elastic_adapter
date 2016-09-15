@@ -18,9 +18,8 @@ module ElasticAdapter
 
         it "indexes a document" do
           subject.index(document)
-          wait(1)
           response = subject.count
-          expect(response.count).to eq 1
+          expect(response['count']).to eq 1
         end
       end
     end
